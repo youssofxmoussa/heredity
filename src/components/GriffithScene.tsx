@@ -152,7 +152,7 @@ export function GriffithScene(p: {
       </g>
       {enzymeOn && p1 > 0.15 && p2 < 0.3 && (
         <Pill x={100} y={290} o={eOut(win(p1, 0.15, 0.4)) * (1 - win(p2, 0, 0.3))}
-          text={"✂ " + ({ protease: t("Protéines détruites", "Proteins destroyed"), rnase: t("ARN détruit", "RNA destroyed"), dnase: t("ADN détruit", "DNA destroyed") } as Record<string, string>)[enz]!} />
+          text={({ protease: t("Protéines détruites", "Proteins destroyed"), rnase: t("ARN détruit", "RNA destroyed"), dnase: t("ADN détruit", "DNA destroyed") } as Record<string, string>)[enz]!} />
       )}
 
       {/* Syringe: drawn BEFORE the mouse so the needle tip disappears under the skin of its back. */}
@@ -196,7 +196,7 @@ export function GriffithScene(p: {
       {inside > 0 && p2 < 0.97 && <ellipse cx={449} cy={169} rx={6 * inside} ry={2.2 * inside} fill="var(--rose-deep)" opacity={0.5} />}
 
       {/* Mouse */}
-      <g transform="translate(470,200)">
+      <g transform={`translate(${470 + Math.sin(win(p2, 0.55, 0.68) * Math.PI * 3) * 3},${200 - Math.sin(win(p2, 0.55, 0.68) * Math.PI) * 4})`}>
         <ellipse cx={-10} cy={62} rx={95} ry={8} fill="var(--ink)" opacity={0.1} />
         <Mouse k={k} sick={sick} dead={dead} />
       </g>
