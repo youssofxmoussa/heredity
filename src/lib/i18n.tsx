@@ -48,7 +48,7 @@ export function LangSwitch() {
   const lang = useLang();
   return (
     <div
-      className="absolute right-3 top-3 z-50 flex overflow-hidden rounded-full bg-card shadow-soft"
+      className="flex shrink-0 overflow-hidden rounded-full border border-border/70 bg-card p-0.5 shadow-soft"
       role="group"
       aria-label="Langue / Language"
     >
@@ -57,7 +57,7 @@ export function LangSwitch() {
           key={l}
           onClick={() => setLang(l)}
           aria-pressed={lang === l}
-          className={`h-11 min-w-12 px-3 text-base font-bold transition ${lang === l ? "bg-primary text-primary-foreground" : ""}`}
+          className={`h-10 min-w-11 rounded-full px-3 text-sm font-bold transition ${lang === l ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
         >
           {l.toUpperCase()}
         </button>

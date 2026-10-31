@@ -65,17 +65,16 @@ export function SheetLayout(p: {
 
   return (
     <div className="mx-auto min-h-screen max-w-5xl px-3 pb-16 pt-4 sm:px-6">
-      <header className="mb-4 flex items-center gap-3 pr-28">
-        <Link to="/" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-card shadow-soft" aria-label={t("Sommaire", "Contents")}>
-          <ArrowLeft className="h-5 w-5" />
+      <header className="relative mb-4 overflow-hidden rounded-3xl bg-luxe p-4 shadow-luxe sm:p-6">
+        <img src={sheet.icon} alt="" width={384} height={384} className="pointer-events-none absolute -right-3 -top-2 h-24 w-24 rotate-6 object-contain opacity-90 drop-shadow sm:right-2 sm:top-1 sm:h-36 sm:w-36" />
+        <Link to="/" className="relative inline-flex h-10 items-center gap-1.5 rounded-full bg-card/90 pl-2.5 pr-4 text-sm font-semibold shadow-soft" aria-label={t("Sommaire", "Contents")}>
+          <ArrowLeft className="h-4 w-4" /> {t("Sommaire", "Contents")}
         </Link>
-        <img src={sheet.icon} alt="" width={384} height={384} className="h-14 w-14 shrink-0 object-contain drop-shadow sm:h-16 sm:w-16" />
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            {t("Feuille", "Sheet")} {p.num} · {t(sheet.section, sheet.sectionEn)}
-          </p>
-          <h1 className="font-display text-3xl leading-tight sm:text-4xl">{t(sheet.titre, sheet.titreEn)}</h1>
-        </div>
+        <p className="relative mt-4 pr-20 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground sm:pr-36 sm:text-xs">
+          {t("Feuille", "Sheet")} {String(p.num).padStart(2, "0")} · {t(sheet.section, sheet.sectionEn)}
+        </p>
+        <h1 className="relative mt-2 text-balance font-display text-[2rem] leading-[1.05] sm:pr-36 sm:text-5xl">{t(sheet.titre, sheet.titreEn)}</h1>
+        <div className="relative mt-3 h-px w-20 bg-primary/40" />
       </header>
 
       <section className="mb-4 rounded-2xl bg-secondary/40 p-4 shadow-soft">
