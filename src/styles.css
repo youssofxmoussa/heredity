@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Nunito", system-ui, sans-serif;
-  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-sans: "Jost", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", Georgia, serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -34,61 +34,83 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --shadow-soft: 0 6px 20px -8px color-mix(in oklab, var(--foreground) 20%, transparent);
+  --shadow-soft: 0 10px 30px -14px color-mix(in oklab, var(--primary) 35%, transparent);
 }
 
 :root {
-  --radius: 1rem;
-  --background: oklch(97.5% 0.012 230);
-  --foreground: oklch(30% 0.04 250);
-  --card: oklch(100% 0 0);
-  --card-foreground: oklch(30% 0.04 250);
-  --popover: oklch(100% 0 0);
-  --popover-foreground: oklch(30% 0.04 250);
-  --primary: oklch(62% 0.12 235);
-  --primary-foreground: oklch(99% 0 0);
-  --secondary: oklch(92% 0.05 60);
-  --secondary-foreground: oklch(35% 0.06 50);
-  --muted: oklch(94% 0.015 230);
-  --muted-foreground: oklch(50% 0.03 250);
-  --accent: oklch(88% 0.07 160);
-  --accent-foreground: oklch(30% 0.04 250);
-  --success: oklch(70% 0.13 155);
-  --success-foreground: oklch(99% 0 0);
-  --destructive: oklch(65% 0.18 20);
-  --destructive-foreground: oklch(99% 0 0);
-  --border: oklch(90% 0.02 230);
-  --input: oklch(88% 0.02 230);
-  --ring: oklch(62% 0.12 235);
+  --radius: 1.1rem;
+  /* Luxe palette: beige, rose poudré, brun doux */
+  --background: oklch(95.5% 0.018 75);
+  --foreground: oklch(32% 0.035 45);
+  --card: oklch(98.6% 0.009 75);
+  --card-foreground: oklch(32% 0.035 45);
+  --popover: oklch(98.6% 0.009 75);
+  --popover-foreground: oklch(32% 0.035 45);
+  --primary: oklch(52% 0.055 40);
+  --primary-foreground: oklch(97% 0.015 75);
+  --secondary: oklch(90% 0.035 20);
+  --secondary-foreground: oklch(36% 0.045 30);
+  --muted: oklch(91.5% 0.02 70);
+  --muted-foreground: oklch(52% 0.03 50);
+  --accent: oklch(87% 0.05 15);
+  --accent-foreground: oklch(32% 0.035 45);
+  --success: oklch(64% 0.08 150);
+  --success-foreground: oklch(98% 0 0);
+  --destructive: oklch(58% 0.13 20);
+  --destructive-foreground: oklch(98% 0 0);
+  --border: oklch(87% 0.025 60);
+  --input: oklch(85% 0.025 60);
+  --ring: oklch(70% 0.07 15);
+  --gold: oklch(74% 0.08 80);
+  --gradient-luxe: linear-gradient(135deg, oklch(93% 0.03 20), oklch(95% 0.025 75) 55%, oklch(90% 0.035 55));
+  --shadow-luxe: 0 18px 40px -22px color-mix(in oklab, var(--primary) 55%, transparent);
 
-  /* Biology palette */
-  --base-a: oklch(75% 0.14 25);
-  --base-t: oklch(82% 0.13 85);
-  --base-g: oklch(72% 0.13 150);
-  --base-c: oklch(70% 0.12 250);
-  --base-u: oklch(72% 0.14 320);
-  --sugar: oklch(85% 0.04 60);
-  --phosphate: oklch(60% 0.05 280);
-  --old-strand: oklch(55% 0.1 250);
-  --new-strand: oklch(72% 0.15 40);
-  --rna: oklch(68% 0.15 320);
-  --enzyme: oklch(78% 0.1 180);
-  --protein: oklch(75% 0.12 120);
-  --danger: oklch(65% 0.18 20);
-  --radio: oklch(85% 0.18 110);
+  /* Biology palette (muted, distinct) */
+  --base-a: oklch(70% 0.11 15);
+  --base-t: oklch(80% 0.1 80);
+  --base-g: oklch(66% 0.08 155);
+  --base-c: oklch(64% 0.07 245);
+  --base-u: oklch(66% 0.1 340);
+  --sugar: oklch(86% 0.04 70);
+  --phosphate: oklch(56% 0.05 30);
+  --old-strand: oklch(48% 0.06 40);
+  --new-strand: oklch(70% 0.1 15);
+  --rna: oklch(64% 0.11 350);
+  --enzyme: oklch(74% 0.07 180);
+  --protein: oklch(72% 0.09 110);
+  --danger: oklch(58% 0.14 22);
+  --radio: oklch(85% 0.15 105);
+  --hot-dna: oklch(60% 0.18 25);
+
+  /* Scene materials */
+  --ink: oklch(25% 0.03 40);
+  --scene-hi: oklch(98% 0.012 75);
+  --scene-lo: oklch(91% 0.03 50);
+  --mote: oklch(80% 0.05 20);
+  --bench: oklch(84% 0.04 60);
+  --glass: oklch(97% 0.01 220 / 0.55);
+  --medium: oklch(88% 0.06 85);
+  --agar: oklch(86% 0.07 25);
+  --fur: oklch(93% 0.015 70);
+  --rose-deep: oklch(76% 0.08 15);
+  --brown: oklch(50% 0.05 45);
+  --capsid: oklch(84% 0.05 60);
+  --capsid-deep: oklch(66% 0.06 45);
+  --coli: oklch(85% 0.06 25);
+  --coli-deep: oklch(68% 0.08 25);
 
   /* Translation scene */
-  --cytoplasm: oklch(96% 0.025 200);
-  --cytoplasm-deep: oklch(91% 0.04 210);
-  --ribo-large: oklch(74% 0.09 55);
-  --ribo-large-hi: oklch(88% 0.06 70);
-  --ribo-small: oklch(68% 0.1 45);
-  --ribo-small-hi: oklch(82% 0.08 60);
-  --ribo-site: oklch(98% 0.02 70);
-  --trna: oklch(76% 0.11 190);
-  --trna-hi: oklch(88% 0.08 190);
-  --release: oklch(66% 0.17 20);
-  --bond-glow: oklch(93% 0.16 95);
+  --cytoplasm: oklch(96% 0.02 60);
+  --cytoplasm-deep: oklch(90% 0.035 40);
+  --ribo-large: oklch(72% 0.07 45);
+  --ribo-large-hi: oklch(87% 0.05 60);
+  --ribo-small: oklch(66% 0.08 25);
+  --ribo-small-hi: oklch(82% 0.06 25);
+  --ribo-site: oklch(98% 0.015 70);
+  --trna: oklch(74% 0.08 190);
+  --trna-hi: oklch(87% 0.06 190);
+  --release: oklch(60% 0.14 20);
+  --bond-glow: oklch(92% 0.13 90);
 }
 
 @layer base {
@@ -105,6 +127,7 @@
 @utility font-display {
   font-family: var(--font-display);
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 @utility shadow-soft {
@@ -114,4 +137,15 @@
 .sim-range {
   accent-color: var(--primary);
   height: 2rem;
+}
+
+@utility bg-luxe {
+  background-image: var(--gradient-luxe);
+}
+@utility shadow-luxe {
+  box-shadow: var(--shadow-luxe);
+}
+body {
+  background-image: radial-gradient(ellipse at top, oklch(93% 0.035 20 / 0.6), transparent 60%);
+  background-attachment: fixed;
 }
