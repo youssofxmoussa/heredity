@@ -4,6 +4,7 @@ import { useT } from "@/lib/i18n";
 import { baseColors, pageMeta } from "@/lib/sheets";
 import { chargaff, COMP, phase, useSim } from "@/lib/genetics";
 import { Bars, SheetLayout, Slider } from "@/components/SheetLayout";
+import { StructureScene } from "@/components/StructureScene";
 
 export const Route = createFileRoute("/structure")({
   head: () => ({ meta: pageMeta("Structure de l'ADN — Génétique ch.1", "Assemble les nucléotides, observe l'appariement A–T / G–C et la double hélice.") }),
@@ -39,7 +40,6 @@ function Page() {
   const p0 = phase(sim, 0), p1 = phase(sim, 1), p2 = phase(sim, 2), p3 = phase(sim, 3), p4 = phase(sim, 4);
   const top = Math.floor(p1 * n);
   const bot = Math.floor(p2 * n);
-  const w = 520 / n;
   const exp = chargaff(pA);
   const counts: Record<string, number> = { A: 0, T: 0, G: 0, C: 0 };
   seq.forEach((b, i) => {
@@ -48,8 +48,6 @@ function Page() {
     if (i < bot) counts[cb] = (counts[cb] ?? 0) + 1;
   });
   const hb = seq.slice(0, Math.floor(p3 * n)).reduce((s, b) => s + (b === "A" || b === "T" ? 2 : 3), 0);
-  const yTop = (i: number) => 160 - 70 * (p4 ? Math.cos(i * 0.7 * p4) : 1);
-  const yBot = (i: number) => 160 + 70 * (p4 ? Math.cos(i * 0.7 * p4) : 1);
 
   return (
     <SheetLayout
@@ -81,63 +79,7 @@ function Page() {
           <Slider label={t("Nombre de paires", "Number of pairs")} value={n} min={6} max={14} onChange={setN} disabled={sim.started} />
         </>
       }
-      scene={
-        <svg viewBox="0 0 600 320" className="w-full">
-          {sim.step === 0 && sim.started ? (
-            <g opacity={p0 > 0 ? 1 : 0} transform="translate(200,120)">
-              <circle cx={0} cy={40} r={22} fill="var(--phosphate)" />
-              <text x={0} y={45} textAnchor="middle" fill="var(--card)" fontWeight={700}>P</text>
-              <polygon points="50,20 90,20 100,55 70,75 40,55" fill="var(--sugar)" opacity={Math.min(1, p0 * 3)} />
-              <text x={70} y={50} textAnchor="middle" fontSize={12}>{t("sucre", "sugar")}</text>
-              <rect x={120} y={25} width={70} height={36} rx={10} fill="var(--base-a)" opacity={Math.min(1, p0 * 2)} />
-              <text x={155} y={49} textAnchor="middle" fontWeight={700}>A</text>
-              <text x={-20} y={110} fontSize={14} fill="var(--foreground)">C5' ← phosphate · C1' → base</text>
-            </g>
-          ) : (
-            seq.map((b, i) => {
-              const y1 = yTop(i), y2 = yBot(i), x = 40 + i * w + w / 2, c = COMP[b] ?? "", mid = (y1 + y2) / 2, nb = b === "A" || b === "T" ? 2 : 3;
-              return (
-                <g key={i}>
-                  {i < top && (
-                    <>
-                      {i > 0 && <line x1={x - w} y1={yTop(i - 1)} x2={x} y2={y1} stroke="var(--phosphate)" strokeWidth={5} />}
-                      <circle cx={x} cy={y1} r={8} fill="var(--sugar)" />
-                      <rect x={x - 9} y={Math.min(y1, mid) + 6} width={18} height={Math.max(0, Math.abs(mid - y1) - 8)} rx={4} fill={baseColors[b]} />
-                      <text x={x} y={Math.min(y1, mid) + 22} textAnchor="middle" fontSize={12} fontWeight={700}>{b}</text>
-                    </>
-                  )}
-                  {i < bot && (
-                    <>
-                      {i > 0 && <line x1={x - w} y1={yBot(i - 1)} x2={x} y2={y2} stroke="var(--phosphate)" strokeWidth={5} />}
-                      <circle cx={x} cy={y2} r={8} fill="var(--sugar)" />
-                      <rect x={x - 9} y={Math.min(mid, y2) + 2} width={18} height={Math.max(0, Math.abs(y2 - mid) - 8)} rx={4} fill={baseColors[c]} />
-                      <text x={x} y={Math.max(mid, y2) - 12} textAnchor="middle" fontSize={12} fontWeight={700}>{c}</text>
-                    </>
-                  )}
-                  {i < Math.floor(p3 * n) && Array.from({ length: nb }).map((_, k) => (
-                    <line key={k} x1={x - 6 + k * 6} x2={x - 6 + k * 6} y1={mid - 3} y2={mid + 3} stroke="var(--foreground)" strokeWidth={2} />
-                  ))}
-                </g>
-              );
-            })
-          )}
-          {p3 > 0.3 && <text x={300} y={20} textAnchor="middle" fontSize={13} fill="var(--foreground)">{t("┆ = liaisons hydrogène (A=T : 2 · G≡C : 3)", "┆ = hydrogen bonds (A=T: 2 · G≡C: 3)")}</text>}
-          {sim.step >= 1 && !sim.done && p4 === 0 && <text x={300} y={300} textAnchor="middle" fontSize={13} fill="var(--foreground)">{t("● sucre — trait : phosphate = squelette du brin", "● sugar — line: phosphate = strand backbone")}</text>}
-          {p4 > 0.5 && <text x={300} y={305} textAnchor="middle" fontSize={13} fontWeight={700} fill="var(--foreground)">{t("Double hélice : 2 brins antiparallèles", "Double helix: 2 antiparallel strands")}</text>}
-          {sim.step >= 1 && (
-            <>
-              <text x={20} y={80} fontSize={14} fontWeight={700} fill="var(--foreground)">5'</text>
-              <text x={565} y={80} fontSize={14} fontWeight={700} fill="var(--foreground)">3'</text>
-              {bot > 0 && (
-                <>
-                  <text x={20} y={250} fontSize={14} fontWeight={700} fill="var(--foreground)">3'</text>
-                  <text x={565} y={250} fontSize={14} fontWeight={700} fill="var(--foreground)">5'</text>
-                </>
-              )}
-            </>
-          )}
-        </svg>
-      }
+      scene={<StructureScene seq={seq} p0={p0} p1={p1} p2={p2} p3={p3} p4={p4} step={sim.step} started={sim.started} done={sim.done} t={t} />}
       mesure={
         <>
           <Bars items={["A", "T", "G", "C"].map((b) => ({ label: b, value: counts[b], color: baseColors[b] }))} max={n} />
