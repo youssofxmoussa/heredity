@@ -56,8 +56,8 @@ export function SheetLayout(p: {
 }) {
   const t = useT();
   const { sim, steps } = p;
-  const sheet = sheets[p.num - 1];
-  const cur = steps[Math.max(0, Math.min(sim.step, steps.length - 1))];
+  const sheet = sheets[p.num - 1]!;
+  const cur = steps[Math.max(0, Math.min(sim.step, steps.length - 1))]!;
   const [answers, setAnswers] = useState(p.questions.map(() => ""));
   const [showAns, setShowAns] = useState(false);
   const prev = sheets[p.num - 2];
@@ -247,7 +247,7 @@ export function Slider(p: { label: string; value: number; min: number; max: numb
   );
 }
 
-export function Bars(p: { items: { label: string; value?: number; color: string }[]; max?: number; unit?: string }) {
+export function Bars(p: { items: { label: string; value?: number | undefined; color?: string | undefined }[]; max?: number; unit?: string }) {
   const max = p.max ?? Math.max(1, ...p.items.map((i) => i.value ?? 0));
   return (
     <div className="space-y-1.5">

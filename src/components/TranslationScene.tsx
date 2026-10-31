@@ -40,7 +40,7 @@ function useClock() {
 }
 
 /* ---------- tRNA ---------- */
-function TRNA({ x, y, rot, opacity, anti, aa, isRelease }: { x: number; y: number; rot: number; opacity: number; anti: string; aa?: string; isRelease?: boolean }) {
+function TRNA({ x, y, rot, opacity, anti, aa, isRelease }: { x: number; y: number; rot: number; opacity: number; anti: string; aa?: string | undefined; isRelease?: boolean }) {
   if (opacity <= 0.01) return null;
   const body = isRelease ? "var(--release)" : "var(--trna)";
   return (
@@ -98,16 +98,16 @@ function chainPoints(ax: number, ay: number, n: number, now: number, wob: number
   const pts: [number, number][] = [];
   let acc = 0;
   const SP = 25;
-  pts.push(guide[0]);
+  pts.push(guide[0]!);
   for (let i = 1; i < guide.length && pts.length < n; i++) {
-    const [x1, y1] = guide[i - 1], [x2, y2] = guide[i];
+    const [x1, y1] = guide[i - 1]!, [x2, y2] = guide[i]!;
     acc += Math.hypot(x2 - x1, y2 - y1);
     if (acc >= SP) {
       pts.push([x2, y2]);
       acc = 0;
     }
   }
-  while (pts.length < n) pts.push(pts[pts.length - 1]);
+  while (pts.length < n) pts.push(pts[pts.length - 1]!);
   return pts;
 }
 
@@ -165,7 +165,7 @@ export function TranslationScene({ sim, seq, frame, t }: { sim: Sim; seq: string
   const shake = stalled ? Math.sin(now * 38) * 2.2 * seg(p4, 0.4, 0.6) : 0;
 
   // --- tRNAs
-  type TR = { key: string; j: number; x: number; y: number; rot: number; op: number; aa?: string };
+  type TR = { key: string; j: number; x: number; y: number; rot: number; op: number; aa?: string | undefined };
   const trnas: TR[] = [];
   if (sim.started) {
     // initiator
@@ -360,7 +360,7 @@ export function TranslationScene({ sim, seq, frame, t }: { sim: Sim; seq: string
       {/* polypeptide */}
       {beads.length > 1 &&
         beads.slice(1).map((b, k) => (
-          <line key={"l" + k} x1={beads[k].x} y1={beads[k].y} x2={b.x} y2={b.y} stroke="var(--foreground)" strokeOpacity={0.45} strokeWidth={3} strokeLinecap="round" />
+          <line key={"l" + k} x1={beads[k]!.x} y1={beads[k]!.y} x2={b.x} y2={b.y} stroke="var(--foreground)" strokeOpacity={0.45} strokeWidth={3} strokeLinecap="round" />
         ))}
       {beads
         .slice()

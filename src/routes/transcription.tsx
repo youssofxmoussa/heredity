@@ -25,9 +25,9 @@ function Page() {
   const sim = useSim(steps.length);
   const [gene, setGene] = useState("cours");
   const [promo, setPromo] = useState("oui");
-  const rna = GENES[gene];
-  const coding = rna.split("").map((b) => TO_DNA[b]);
-  const template = coding.map((b) => COMP[b]);
+  const rna = GENES[gene] ?? "";
+  const coding = rna.split("").map((b) => TO_DNA[b] ?? "");
+  const template = coding.map((b) => COMP[b] ?? "");
   const n = rna.length;
   const has = promo === "oui";
   const p0 = phase(sim, 0), p1 = phase(sim, 1), p2 = phase(sim, 2), p3 = phase(sim, 3), p4 = phase(sim, 4);
@@ -37,7 +37,7 @@ function Page() {
   const polY = 160 - p3 * 120 * (has ? 1 : 0);
   const rnaY = 175 + p4 * 70;
   const counts: Record<string, number> = { A: 0, U: 0, G: 0, C: 0 };
-  rna.slice(0, made).split("").forEach((b) => counts[b]++);
+  rna.slice(0, made).split("").forEach((b) => (counts[b] = (counts[b] ?? 0) + 1));
 
   return (
     <SheetLayout
@@ -94,7 +94,7 @@ function Page() {
                 <text x={x + w / 2 - 1} y={(open ? 158 : 130) + 13} textAnchor="middle" fontSize={11}>{template[i]}</text>
                 {i < made && (
                   <>
-                    <rect x={x} y={rnaY + 8} width={w - 2} height={18} rx={3} fill={baseColors[rna[i]]} />
+                    <rect x={x} y={rnaY + 8} width={w - 2} height={18} rx={3} fill={baseColors[rna[i] ?? ""]} />
                     <text x={x + w / 2 - 1} y={rnaY + 21} textAnchor="middle" fontSize={11} fontWeight={700}>{rna[i]}</text>
                   </>
                 )}

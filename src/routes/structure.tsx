@@ -18,7 +18,7 @@ function makeSeq(n: number, pA: number) {
   for (let i = n - 1; i > 0; i--) {
     seed = (seed * 9301 + 49297) % 233280;
     const j = seed % (i + 1);
-    [r[i], r[j]] = [r[j], r[i]];
+    [r[i], r[j]] = [r[j]!, r[i]!];
   }
   return r;
 }
@@ -43,8 +43,9 @@ function Page() {
   const exp = chargaff(pA);
   const counts: Record<string, number> = { A: 0, T: 0, G: 0, C: 0 };
   seq.forEach((b, i) => {
-    if (i < top) counts[b]++;
-    if (i < bot) counts[COMP[b]]++;
+    if (i < top) counts[b] = (counts[b] ?? 0) + 1;
+    const cb = COMP[b] ?? "";
+    if (i < bot) counts[cb] = (counts[cb] ?? 0) + 1;
   });
   const hb = seq.slice(0, Math.floor(p3 * n)).reduce((s, b) => s + (b === "A" || b === "T" ? 2 : 3), 0);
   const yTop = (i: number) => 160 - 70 * (p4 ? Math.cos(i * 0.7 * p4) : 1);
@@ -94,7 +95,7 @@ function Page() {
             </g>
           ) : (
             seq.map((b, i) => {
-              const y1 = yTop(i), y2 = yBot(i), x = 40 + i * w + w / 2, c = COMP[b], mid = (y1 + y2) / 2, nb = b === "A" || b === "T" ? 2 : 3;
+              const y1 = yTop(i), y2 = yBot(i), x = 40 + i * w + w / 2, c = COMP[b] ?? "", mid = (y1 + y2) / 2, nb = b === "A" || b === "T" ? 2 : 3;
               return (
                 <g key={i}>
                   {i < top && (

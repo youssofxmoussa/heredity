@@ -35,7 +35,7 @@ function Home() {
             <h2 className="mb-2 font-display text-xl">{t(g.fr, g.en)}</h2>
             <div className="grid gap-3 sm:grid-cols-2">
               {g.ids.map((id) => {
-                const s = sheets[id];
+                const s = sheets[id]!;
                 return (
                   <Link key={s.to} to={s.to} className="flex items-center gap-4 rounded-3xl bg-card p-5 shadow-soft transition hover:-translate-y-0.5">
                     <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary/15 text-3xl">{s.emoji}</span>

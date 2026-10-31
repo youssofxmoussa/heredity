@@ -27,7 +27,7 @@ function Page() {
   ];
   const [mrna, setMrna] = useState("cours");
   const [mut, setMut] = useState("aucune");
-  const seq = mutate(MRNAS[mrna], mut);
+  const seq = mutate(MRNAS[mrna] ?? "", mut);
   const frame = readFrame(seq);
   const cycles = Math.max(0, frame.aa.length - 1);
   const elong = Math.max(1, cycles * 0.55);
