@@ -25,9 +25,9 @@ function Home() {
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
       <section className="relative overflow-hidden rounded-[2rem] bg-luxe p-6 shadow-luxe sm:p-10">
-        <img src={sheets[2]!.icon} alt="" width={384} height={384} className="pointer-events-none absolute -right-8 -top-4 h-32 w-32 rotate-12 opacity-80 sm:-right-10 sm:-top-6 sm:h-64 sm:w-64 sm:opacity-90" />
-        <p className="pr-28 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">{t("Génétique · Chapitre 1", "Genetics · Chapter 1")}</p>
-        <h1 className="mt-3 max-w-lg pr-16 font-display text-[2.6rem] sm:pr-0 sm:text-6xl leading-[0.95]">
+        <img src={sheets[2]!.icon} alt="" width={384} height={384} className="pointer-events-none absolute -right-6 -top-2 h-28 w-28 rotate-12 opacity-80 sm:-right-10 sm:-top-6 sm:h-64 sm:w-64 sm:opacity-90" />
+        <p className="pr-20 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground sm:pr-0">{t("Génétique · Chapitre 1", "Genetics · Chapter 1")}</p>
+        <h1 className="mt-3 max-w-lg font-display text-[2.4rem] leading-[0.95] sm:text-6xl">
           {t("Bases biochimiques ", "Biochemical basis ")}
           <em className="text-primary">{t("de l'hérédité", "of heredity")}</em>
         </h1>

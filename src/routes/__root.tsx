@@ -119,7 +119,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <LangSwitch />
+      <div className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
+        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-3 px-3 sm:px-6">
+          <Link to="/" className="min-w-0 truncate font-display text-xl italic text-primary">Heredo Lab</Link>
+          <LangSwitch />
+        </div>
+      </div>
       <Outlet />
     </QueryClientProvider>
   );
