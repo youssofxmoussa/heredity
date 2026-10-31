@@ -3,7 +3,7 @@ import { Backdrop, Finish, KitDefs, Pill, eBack, eIO, eOut, lerp, useClock, win 
 type T = (fr: string, en: string) => string;
 
 /** Streptococcus pneumoniae: a diplococcus; S strains wear a translucent polysaccharide capsule. */
-function Diplo({ x, y, rot, type, dead, k, i }: { x: number; y: number; rot: number; type: "S" | "R"; dead?: boolean; k: number; i: number }) {
+function Diplo({ x, y, rot, type, dead, k, i }: { x: number; y: number; rot: number; type: "S" | "R"; dead?: boolean | undefined; k: number; i: number }) {
   const wob = dead ? 0 : Math.sin(k * 3 + i * 1.3) * 4;
   const fill = dead ? "var(--muted-foreground)" : type === "S" ? "var(--base-g)" : "var(--base-t)";
   return (
