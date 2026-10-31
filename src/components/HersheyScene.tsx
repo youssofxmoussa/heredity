@@ -155,7 +155,7 @@ export function HersheyScene(p: {
           )}
           {p4 > 0.6 && (
             <Pill x={300} y={304} tone="accent" o={eOut(win(p4, 0.6, 0.85))}
-              text={t("Nouveaux phages : ", "New phages: ") + (res.descendance ? t("radioactifs ✓", "radioactive ✓") : t("non radioactifs", "not radioactive"))} />
+              text={t("Nouveaux phages : ", "New phages: ") + (res.descendance ? t("radioactifs", "radioactive") : t("non radioactifs", "not radioactive"))} />
           )}
         </g>
       )}

@@ -95,7 +95,7 @@ function Page() {
               );
             })}
           </div>
-          {!frame.stop && <p className="mt-2 text-xs font-semibold">{t("⚠ Aucun codon stop dans ce cadre de lecture.", "⚠ No stop codon in this reading frame.")}</p>}
+          {!frame.stop && <p className="mt-2 text-xs font-semibold">{t("Aucun codon stop dans ce cadre de lecture.", "No stop codon in this reading frame.")}</p>}
         </>
       }
       questions={[
