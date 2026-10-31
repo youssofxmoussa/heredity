@@ -90,7 +90,7 @@ function Page() {
               <g key={i}>
                 <rect x={x} y={open ? 92 : 106} width={w - 2} height={18} rx={3} fill={baseColors[b]} />
                 <text x={x + w / 2 - 1} y={(open ? 92 : 106) + 13} textAnchor="middle" fontSize={11}>{b}</text>
-                <rect x={x} y={open ? 158 : 130} width={w - 2} height={18} rx={3} fill={baseColors[template[i]]} />
+                <rect x={x} y={open ? 158 : 130} width={w - 2} height={18} rx={3} fill={baseColors[template[i] ?? ""]} />
                 <text x={x + w / 2 - 1} y={(open ? 158 : 130) + 13} textAnchor="middle" fontSize={11}>{template[i]}</text>
                 {i < made && (
                   <>
