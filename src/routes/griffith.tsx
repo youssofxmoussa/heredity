@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
+import { GriffithScene } from "@/components/GriffithScene";
 import { pageMeta } from "@/lib/sheets";
 import { griffithResult, phase, useSim } from "@/lib/genetics";
 import { Bars, Choice, SheetLayout } from "@/components/SheetLayout";
@@ -78,46 +79,7 @@ function Page() {
           ]} />
         </>
       }
-      scene={
-        <svg viewBox="0 0 600 320" className="w-full">
-          <rect x={10} y={20} width={180} height={150} rx={20} fill="var(--muted)" />
-          <text x={100} y={44} textAnchor="middle" fontWeight={700} fill="var(--foreground)">{t("Seringue", "Syringe")}</text>
-          {hasS && [0, 1, 2].map((i) => <Bact key={i} x={60 + i * 40 + p2 * 330} y={100 + (i % 2) * 30} type="S" />)}
-          {hasR && [0, 1, 2].map((i) => <Bact key={"r" + i} x={60 + i * 40 + p2 * 330} y={80 + i * 25} type="R" />)}
-          {hasDead && [0, 1].map((i) => <Bact key={"m" + i} x={80 + i * 50 + p2 * 330} y={140} type="S" dead />)}
-          {inj === "R+Smort" && enz !== "aucun" && p1 > 0 && (
-            <g opacity={p2 > 0 ? 0 : 1}>
-              <circle cx={ex + 60} cy={140} r={10 + p1 * 6} fill="var(--enzyme)" opacity={0.7} />
-              <text x={100} y={195} textAnchor="middle" fontSize={14} fill="var(--foreground)">
-                ✂ {({ protease: t("Protéines détruites", "Proteins destroyed"), rnase: t("ARN détruit", "RNA destroyed"), dnase: t("ADN détruit", "DNA destroyed") } as Record<string, string>)[enz]}
-              </text>
-            </g>
-          )}
-          {p2 > 0 && p2 < 1 && <text x={290} y={70} textAnchor="middle" fontSize={13} fill="var(--foreground)">injection →</text>}
-          <g transform="translate(450,110)">
-            <ellipse rx={80} ry={50} fill="var(--secondary)" />
-            <text textAnchor="middle" y={-58} fontWeight={700} fill="var(--foreground)">{t("Souris", "Mouse")}</text>
-            <text textAnchor="middle" y={20} fontSize={64}>{res.meurt && p3 > 0.7 ? "💀" : "🐭"}</text>
-          </g>
-          <rect x={370} y={185} width={160} height={14} rx={7} fill="var(--muted)" />
-          <rect x={370} y={185} width={1.6 * health} height={14} rx={7} fill={health > 50 ? "var(--success)" : "var(--danger)"} />
-          <text x={450} y={218} textAnchor="middle" fontSize={13} fill="var(--foreground)">{t("Santé de la souris", "Mouse health")}</text>
-          <g opacity={p4}>
-            <rect x={60} y={240} width={480} height={64} rx={16} fill="var(--accent)" />
-            <text x={300} y={268} textAnchor="middle" fontWeight={700} fill="var(--foreground)">
-              {t("Sang : ", "Blood: ")}
-              {res.sang === "aucune" ? t("pas de bactérie S vivante", "no living S bacteria") : t("bactéries S vivantes !", "living S bacteria!")}
-            </text>
-            <text x={300} y={290} textAnchor="middle" fontSize={13} fill="var(--foreground)">
-              {inj === "R+Smort"
-                ? res.meurt
-                  ? t("R a été TRANSFORMÉE en S", "R was TRANSFORMED into S")
-                  : t("Pas de transformation : l'ADN était détruit", "No transformation: DNA was destroyed")
-                : t("Témoin", "Control")}
-            </text>
-          </g>
-        </svg>
-      }
+      scene={<GriffithScene p1={p1} p2={p2} p3={p3} p4={p4} started={sim.started} inj={inj} enz={enz} res={res} t={t} />}
       mesure={
         <>
           <Bars unit="%" max={100} items={[

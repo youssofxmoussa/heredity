@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
+import { HersheyScene } from "@/components/HersheyScene";
 import { pageMeta } from "@/lib/sheets";
 import { hersheyResult, phase, useSim } from "@/lib/genetics";
 import { Bars, Choice, SheetLayout, Slider } from "@/components/SheetLayout";
@@ -69,43 +70,7 @@ function Page() {
           <Slider label={t("Durée d'agitation", "Blending time")} value={agit} min={0} max={5} unit=" min" onChange={setAgit} disabled={sim.started} />
         </>
       }
-      scene={
-        <svg viewBox="0 0 600 320" className="w-full">
-          {p3 < 0.5 ? (
-            <g opacity={1 - p3 * 2}>
-              <ellipse cx={300} cy={220} rx={160} ry={60} fill="var(--base-t)" opacity={0.6} />
-              <text x={300} y={290} textAnchor="middle" fill="var(--foreground)" fontWeight={700}>E. coli</text>
-              {p2 > 0 && <path d={`M300,160 q-30,${30 * p2} 0,${60 * p2} q30,20 -20,${30 * p2}`} stroke={dnaHot ? "var(--danger)" : "var(--old-strand)"} strokeWidth={4} fill="none" />}
-              {[220, 300, 380].map((x, i) => (
-                <Phage key={i} x={x} y={40 + p1 * 82} hot={protHot} dnaHot={dnaHot} empty={p2 > 0.5} />
-              ))}
-              <text x={430} y={30 + p1 * 82} fontSize={13} fill="var(--foreground)">
-                {t("← phage T2 (capside", "← T2 phage (capsid")}
-                {p2 > 0.5 ? t(" vide", " empty") : t(" + ADN", " + DNA")})
-              </text>
-              {p2 > 0 && <text x={340} y={215} fontSize={13} fontWeight={700} fill="var(--foreground)">{t("ADN injecté", "DNA injected")}</text>}
-            </g>
-          ) : (
-            <g opacity={(p3 - 0.5) * 2}>
-              <path d="M240,30 h120 v220 q-60,50 -120,0 z" fill="var(--muted)" stroke="var(--foreground)" strokeWidth={2} />
-              <text x={300} y={20} textAnchor="middle" fontWeight={700} fill="var(--foreground)">{t("Tube centrifugé", "Centrifuged tube")}</text>
-              <rect x={242} y={40} width={116} height={150} fill={res.surnageant > 50 ? "var(--radio)" : "var(--card)"} opacity={0.3 + (res.surnageant / 100) * 0.7 * p4} />
-              <ellipse cx={300} cy={250} rx={50} ry={18} fill={res.culot > 50 ? "var(--danger)" : "var(--base-t)"} opacity={0.4 + (res.culot / 100) * 0.6 * p4} />
-              <text x={380} y={110} fill="var(--foreground)">{t("← Surnageant : capsides vides", "← Supernatant: empty capsids")}</text>
-              <text x={360} y={255} fill="var(--foreground)">{t("← Culot : bactéries", "← Pellet: bacteria")}</text>
-            </g>
-          )}
-          {p4 > 0.6 && (
-            <g>
-              <rect x={20} y={270} width={210} height={40} rx={12} fill="var(--accent)" />
-              <text x={125} y={295} textAnchor="middle" fontSize={13} fill="var(--foreground)">
-                {t("Nouveaux phages : ", "New phages: ")}
-                {res.descendance ? t("radioactifs ✓", "radioactive ✓") : t("non radioactifs", "not radioactive")}
-              </text>
-            </g>
-          )}
-        </svg>
-      }
+      scene={<HersheyScene p1={p1} p2={p2} p3={p3} p4={p4} started={sim.started} iso={iso} res={res} t={t} />}
       mesure={
         <>
           <Bars unit="%" max={100} items={[

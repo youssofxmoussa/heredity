@@ -1,4 +1,4 @@
-import { Backdrop, Finish, KitDefs, Pill, clamp01, eBack, eIO, eOut, lerp, useClock, win } from "./scene-kit";
+import { Backdrop, Finish, KitDefs, Pill, eBack, eIO, eOut, lerp, useClock, win } from "./scene-kit";
 
 type T = (fr: string, en: string) => string;
 
@@ -214,7 +214,6 @@ export function GriffithScene(p: {
       )}
       {!p.started && <Pill x={300} y={30} text={t("Choisis le mélange puis « Injecter »", "Pick the mixture, then “Inject”")} />}
       <Finish w={600} h={320} />
-      {clamp01(0) > 1 && null}
     </svg>
   );
 }
