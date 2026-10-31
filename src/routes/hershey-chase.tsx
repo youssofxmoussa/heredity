@@ -11,17 +11,6 @@ export const Route = createFileRoute("/hershey-chase")({
   component: Page,
 });
 
-function Phage({ x, y, hot, empty, dnaHot }: { x: number; y: number; hot: boolean; empty: boolean; dnaHot: boolean }) {
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <polygon points="0,-28 16,-18 16,0 0,10 -16,0 -16,-18" fill={hot ? "var(--radio)" : "var(--protein)"} stroke="var(--foreground)" strokeWidth={1.5} />
-      {!empty && <path d="M-6,-14 q6,6 0,10 q-6,4 0,8" stroke={dnaHot ? "var(--danger)" : "var(--old-strand)"} strokeWidth={3} fill="none" />}
-      <rect x={-3} y={10} width={6} height={18} fill="var(--protein)" />
-      <path d="M0,28 l-12,10 M0,28 l12,10" stroke="var(--foreground)" strokeWidth={2} />
-    </g>
-  );
-}
-
 function Page() {
   const t = useT();
   const steps = [
@@ -36,8 +25,6 @@ function Page() {
   const [agit, setAgit] = useState(4);
   const res = hersheyResult(iso, agit);
   const p1 = phase(sim, 1), p2 = phase(sim, 2), p3 = phase(sim, 3), p4 = phase(sim, 4);
-  const protHot = iso === "35S";
-  const dnaHot = iso === "32P";
 
   return (
     <SheetLayout

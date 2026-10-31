@@ -11,16 +11,6 @@ export const Route = createFileRoute("/griffith")({
   component: Page,
 });
 
-function Bact({ x, y, type, dead }: { x: number; y: number; type: "S" | "R"; dead?: boolean }) {
-  return (
-    <g transform={`translate(${x},${y})`} opacity={dead ? 0.45 : 1}>
-      {type === "S" && <ellipse rx={17} ry={11} fill="none" stroke="var(--base-g)" strokeWidth={4} />}
-      <ellipse rx={12} ry={7} fill={dead ? "var(--muted-foreground)" : type === "S" ? "var(--base-g)" : "var(--base-t)"} />
-      {dead && <text y={4} textAnchor="middle" fontSize={10}>✕</text>}
-    </g>
-  );
-}
-
 function Page() {
   const t = useT();
   const steps = [
@@ -36,10 +26,6 @@ function Page() {
   const res = griffithResult(inj, enz);
   const p1 = phase(sim, 1), p2 = phase(sim, 2), p3 = phase(sim, 3), p4 = phase(sim, 4);
   const health = res.meurt ? 100 - p3 * 100 : 100;
-  const hasR = inj === "R" || inj === "R+Smort";
-  const hasS = inj === "S";
-  const hasDead = inj === "Smort" || inj === "R+Smort";
-  const ex = 40 + p2 * 260;
 
   return (
     <SheetLayout
