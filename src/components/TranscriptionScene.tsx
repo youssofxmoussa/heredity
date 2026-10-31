@@ -15,7 +15,7 @@ export function TranscriptionScene(p: { rna: string; coding: string[]; template:
   const land = eBack(win(p0, 0, 0.8));
   const slide = eIO(p2);
   const leave = eIO(p3);
-  let px = lerp(75, X0 + 10, eIO(p1)) + slide * (SPAN - 10);
+  let px = lerp(75, X0 + 10, eIO(p1)) + slide * (SPAN - 50);
   let py = lerp(40, 168, land) - leave * 150;
   let pr = (has ? 0 : Math.sin(k * 2) * 8) + leave * 25;
   if (!has) {
@@ -38,7 +38,7 @@ export function TranscriptionScene(p: { rna: string; coding: string[]; template:
       const free = eIO(p3);
       return { x: lerp(tx, ox, free), y: lerp(ty, oy, free) };
     }
-    const d = px - bx(i);
+    const d = px + (40 * slide) - bx(i);
     if (d < 40) return { x: bx(i), y: YT - 22 };
     const s = d - 40;
     return { x: px - 40 - s * 0.6, y: 118 - 52 * (1 - Math.exp(-s / 90)) + Math.sin(s * 0.05 + k * 2) * 6 };
