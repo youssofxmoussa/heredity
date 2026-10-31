@@ -27,9 +27,9 @@ function Home() {
       <section className="relative overflow-hidden rounded-[2rem] bg-luxe p-6 shadow-luxe sm:p-10">
         <img src={sheets[2]!.icon} alt="" width={384} height={384} className="pointer-events-none absolute -right-4 -top-3 h-24 w-24 rotate-12 opacity-80 sm:-right-10 sm:-top-6 sm:h-64 sm:w-64 sm:opacity-90" />
         <p className="pr-24 text-xs font-semibold uppercase tracking-[0.22em] sm:tracking-[0.3em] text-muted-foreground sm:pr-0">{t("Génétique · Chapitre 1", "Genetics · Chapter 1")}</p>
-        <h1 className="mt-3 max-w-lg font-display text-[2.1rem] leading-[0.95] sm:text-6xl">
+        <h1 className="mt-3 max-w-lg pr-14 font-display sm:pr-0 text-[2.1rem] leading-[0.95] sm:text-6xl">
           {t("Bases biochimiques ", "Biochemical basis ")}
-          <em className="text-primary">{t("de l'hérédité", "of heredity")}</em>
+          <em className="block text-primary">{t("de l'hérédité", "of heredity")}</em>
         </h1>
         <div className="mt-4 h-px w-24 bg-primary/40" />
         <p className="mt-4 max-w-md text-base text-muted-foreground sm:text-lg">
