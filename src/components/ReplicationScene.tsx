@@ -65,7 +65,7 @@ export function ReplicationScene(p: { p0: number; p1: number; p2: number; p3: nu
           {p2 > 0 && <line x1={L + 4} x2={lead} y1={yA + GAP} y2={yA + GAP} stroke="var(--new-strand)" strokeWidth={6} strokeLinecap="round" />}
           {p2 > 0 && xs.filter((x) => x < lead).map((x) => <line key={x} x1={x} x2={x} y1={yA + 9} y2={yA + GAP} stroke="var(--new-strand)" strokeOpacity={0.5} strokeWidth={3} />)}
           <rect x={L} y={yA + GAP - 4} width={20} height={8} rx={4} fill={replaced > 0.5 ? "var(--new-strand)" : "var(--rna)"} transform={`scale(1,1)`} opacity={primerOn(0)} />
-          {p2 > 0 && p2 < 1 && <Polymerase x={lead} y={yA + GAP} k={k} />}
+          {p2 > 0 && p2 < 1 && <g opacity={1 - win(p2, 0.9, 1)}><Polymerase x={Math.min(lead, R - 22)} y={yA + GAP} k={k} /></g>}
           <text x={R - 4} y={yA + GAP + 22} textAnchor="end" fontSize={11} fontWeight={700} fill="var(--foreground)" opacity={eOut(p2)}>{t("brin précoce (continu) →", "leading strand (continuous) →")}</text>
         </g>
       )}
@@ -100,7 +100,7 @@ export function ReplicationScene(p: { p0: number; p1: number; p2: number; p3: nu
 
       {/* helicase hexamer ring at the fork */}
       {p0 > 0 && p0 < 1 && (
-        <g transform={`translate(${fork + 6},${CY})`} filter="url(#k-shadow)">
+        <g transform={`translate(${Math.min(fork + 6, R - 10)},${CY}) scale(${1 - 0.4 * win(p0, 0.8, 1)})`} opacity={1 - win(p0, 0.82, 1)} filter="url(#k-shadow)">
           {Array.from({ length: 6 }, (_, i) => {
             const a = (i / 6) * Math.PI * 2 + k * 4;
             return <circle key={i} cx={Math.cos(a) * 15} cy={Math.sin(a) * 15} r={8} fill="var(--enzyme)" stroke="var(--ink)" strokeOpacity={0.25} />;
