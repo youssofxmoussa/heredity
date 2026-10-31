@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowLeft, Pause, Play, RotateCcw } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, CheckCircle2, Gauge, Pause, Play, RotateCcw, Search, Target } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useT } from "@/lib/i18n";
 import { sheets } from "@/lib/sheets";
@@ -79,7 +79,7 @@ export function SheetLayout(p: {
       </header>
 
       <section className="mb-4 rounded-2xl bg-secondary/40 p-4 shadow-soft">
-        <h2 className="mb-2 font-display text-xl">📖 Introduction</h2>
+        <h2 className="mb-2 flex items-center gap-2 font-display text-xl"><BookOpen className="h-5 w-5 text-primary" /> Introduction</h2>
         <ul className="space-y-1.5 text-base">
           {p.intro.map((x, i) => (
             <li key={i}>• {x}</li>
@@ -114,7 +114,7 @@ export function SheetLayout(p: {
 
       <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
         <div className="space-y-3">
-          <div className="overflow-hidden rounded-3xl border border-border/70 bg-card p-1.5 shadow-luxe">{p.scene}</div>
+          <div className="overflow-hidden -mx-1 rounded-2xl border border-border/70 bg-card p-0.5 shadow-luxe sm:mx-0 sm:rounded-3xl sm:p-1.5">{p.scene}</div>
           <div className="flex flex-wrap gap-2 rounded-2xl bg-card p-3 text-sm shadow-soft">
             <b className="mr-1">{t("Légende :", "Key:")}</b>
             {p.legend.map((l) => (
@@ -153,14 +153,14 @@ export function SheetLayout(p: {
             )}
           </div>
           <div className="rounded-2xl bg-accent/40 p-4 shadow-soft">
-            <p className="mb-2 font-bold">📊 {t("Mesure en direct", "Live measurement")}</p>
+            <p className="mb-2 flex items-center gap-2 font-bold"><Gauge className="h-4 w-4 text-primary" /> {t("Mesure en direct", "Live measurement")}</p>
             {p.mesure}
           </div>
         </aside>
       </div>
 
       <section className="mt-6 rounded-3xl border-2 border-dashed border-primary/40 bg-card p-4 sm:p-6">
-        <h2 className="mb-3 font-display text-2xl">🔍 {t("Ce que j'observe", "What I observe")}</h2>
+        <h2 className="mb-3 flex items-center gap-2 font-display text-2xl"><Search className="h-5 w-5 text-primary" /> {t("Ce que j'observe", "What I observe")}</h2>
         <ol className="space-y-4">
           {p.questions.map((q, n) => (
             <li key={n}>
@@ -174,7 +174,7 @@ export function SheetLayout(p: {
                 className="w-full rounded-xl border border-input bg-background p-3 text-base"
                 placeholder={t("Ma réponse…", "My answer…")}
               />
-              {showAns && <p className="mt-1 rounded-xl bg-success/20 p-3 text-sm">✅ {q.r}</p>}
+              {showAns && <p className="mt-1 flex gap-2 rounded-xl bg-success/20 p-3 text-sm"><CheckCircle2 className="h-4 w-4 shrink-0 text-success" /> <span>{q.r}</span></p>}
             </li>
           ))}
         </ol>
@@ -184,10 +184,10 @@ export function SheetLayout(p: {
       </section>
 
       <section className="mt-6 rounded-3xl bg-success/20 p-4 shadow-soft sm:p-6">
-        <h2 className="mb-2 font-display text-2xl">🎯 Conclusion</h2>
+        <h2 className="mb-2 flex items-center gap-2 font-display text-2xl"><Target className="h-5 w-5 text-primary" /> Conclusion</h2>
         <ul className="space-y-1.5 text-base">
           {p.conclusion.map((c, i) => (
-            <li key={i}>✔ {c}</li>
+            <li key={i} className="flex gap-2"><Check className="mt-1 h-4 w-4 shrink-0 text-success" /> <span>{c}</span></li>
           ))}
         </ul>
       </section>

@@ -48,7 +48,7 @@ export function LangSwitch() {
   const lang = useLang();
   return (
     <div
-      className="fixed right-3 top-3 z-50 flex overflow-hidden rounded-full bg-card shadow-soft"
+      className="absolute right-3 top-3 z-50 flex overflow-hidden rounded-full bg-card shadow-soft"
       role="group"
       aria-label="Langue / Language"
     >

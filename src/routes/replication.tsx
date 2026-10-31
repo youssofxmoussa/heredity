@@ -4,6 +4,7 @@ import { useT } from "@/lib/i18n";
 import { pageMeta } from "@/lib/sheets";
 import { meselson, phase, useSim } from "@/lib/genetics";
 import { Choice, SheetLayout, Slider } from "@/components/SheetLayout";
+import { ReplicationScene } from "@/components/ReplicationScene";
 
 export const Route = createFileRoute("/replication")({
   head: () => ({ meta: pageMeta("Réplication de l'ADN — Génétique ch.1", "Hélicase, primase, ADN polymérase, fragments d'Okazaki et expérience de Meselson–Stahl.") }),
@@ -27,11 +28,8 @@ function Page() {
   const [size, setSize] = useState("court");
   const p0 = phase(sim, 0), p1 = phase(sim, 1), p2 = phase(sim, 2), p3 = phase(sim, 3), p4 = phase(sim, 4);
   const fl = size === "court" ? 65 : 130;
-  const fork = L + p0 * 520;
   const frags: [number, number][] = [];
   for (let x = L; x < R; x += fl) frags.push([x, Math.min(x + fl, R)]);
-  const k = 1 + p4 * 0.6;
-  const yA = 160 - 80 * k, yL = 160 - 50 * k, yG = 160 + 50 * k, yB = 160 + 80 * k;
   const added = Math.round((p2 * 520 * 2) / 4);
   const g = sim.done || p4 > 0 ? gen : 0;
   const tube = meselson(model, g);
@@ -72,38 +70,7 @@ function Page() {
           <Slider label={t("Générations en ¹⁴N", "Generations in ¹⁴N")} value={gen} min={1} max={3} onChange={setGen} />
         </>
       }
-      scene={
-        <svg viewBox="0 0 600 320" className="w-full">
-          <polyline points={`${L},${yA} ${fork},${yA} ${fork + 20},155 ${R},155`} stroke="var(--old-strand)" strokeWidth={6} fill="none" />
-          <polyline points={`${L},${yB} ${fork},${yB} ${fork + 20},165 ${R},165`} stroke="var(--old-strand)" strokeWidth={6} fill="none" />
-          <text x={10} y={yA + 5} fontSize={13} fontWeight={700} fill="var(--foreground)">3'</text>
-          <text x={10} y={yB + 5} fontSize={13} fontWeight={700} fill="var(--foreground)">5'</text>
-          <text x={80} y={yA - 8} fontSize={12} fill="var(--foreground)">{t("brin parental", "parental strand")}</text>
-          <text x={80} y={yB + 18} fontSize={12} fill="var(--foreground)">{t("brin parental", "parental strand")}</text>
-          {p0 > 0 && p4 === 0 && <text x={Math.min(fork + 30, 500)} y={148} fontSize={12} fontWeight={700} fill="var(--foreground)">{t("fourche", "fork")}</text>}
-          {p0 > 0 && p0 < 1 && <text x={fork - 10} y={135} fontSize={11} fill="var(--foreground)">{t("hélicase", "helicase")}</text>}
-          {p1 > 0 && p1 < 1 && <text x={L} y={yL + 20} fontSize={11} fill="var(--foreground)">{t("amorce ARN (primase)", "RNA primer (primase)")}</text>}
-          {p2 > 0 && p2 < 1 && <text x={60 + p2 * 500 - 30} y={yL + 26} fontSize={11} fill="var(--foreground)">{t("ADN polymérase", "DNA polymerase")}</text>}
-          {p3 > 0.5 && p3 < 1 && <text x={L} y={yG + 40} fontSize={12} fill="var(--foreground)">{t("🔗 ligase : relie les fragments", "🔗 ligase: joins the fragments")}</text>}
-          {p4 > 0.5 && <text x={300} y={164} textAnchor="middle" fontSize={13} fontWeight={700} fill="var(--foreground)">{t("2 molécules filles = 1 brin ancien + 1 brin neuf", "2 daughter molecules = 1 old strand + 1 new strand")}</text>}
-          {p0 > 0 && p0 < 1 && <circle cx={fork + 8} cy={160} r={18} fill="var(--enzyme)" />}
-          {p1 > 0 && <rect x={L} y={yL - 4} width={20} height={8} fill={p3 > 0.5 ? "var(--new-strand)" : "var(--rna)"} />}
-          {p2 > 0 && <line x1={60} y1={yL} x2={60 + p2 * 500} y2={yL} stroke="var(--new-strand)" strokeWidth={6} />}
-          {p2 > 0 && p2 < 1 && <circle cx={60 + p2 * 500} cy={yL} r={12} fill="var(--enzyme)" />}
-          <text x={440} y={yL - 12} fontSize={12} fill="var(--foreground)">{t("brin précoce →", "leading strand →")}</text>
-          {frags.map(([a, b], i) => {
-            const len = b - a, off = p3 > 0.5 ? 0 : 4;
-            return (
-              <g key={i}>
-                {p1 > i / frags.length && <rect x={b - 14 - off} y={yG - 4} width={14} height={8} fill={p3 > 0.5 ? "var(--new-strand)" : "var(--rna)"} />}
-                {p2 > 0 && <line x1={b - 14 - off - p2 * (len - 14 - off)} y1={yG} x2={b - 14 - off} y2={yG} stroke="var(--new-strand)" strokeWidth={6} />}
-              </g>
-            );
-          })}
-          <text x={420} y={yG + 22} fontSize={12} fill="var(--foreground)">{t("← fragments d'Okazaki", "← Okazaki fragments")}</text>
-          {p3 > 0.5 && p3 < 1 && frags.map(([a], i) => i > 0 && <text key={i} x={a - 6} y={yG + 4} fontSize={12}>🔗</text>)}
-        </svg>
-      }
+      scene={<ReplicationScene p0={p0} p1={p1} p2={p2} p3={p3} p4={p4} frags={frags} started={sim.started} t={t} />}
       mesure={
         <>
           <p className="text-sm">

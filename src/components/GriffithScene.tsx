@@ -73,11 +73,19 @@ export function GriffithScene(p: {
   const hasDead = inj === "Smort" || inj === "R+Smort";
   const transformed = inj === "R+Smort" && res.meurt;
 
-  // Syringe: plunger anticipates (pulls back) then pushes.
-  const push = eIO(win(p2, 0.15, 0.9));
-  const antic = Math.sin(win(p2, 0, 0.15) * Math.PI) * 8;
-  const plunger = -antic + push * 82;
-  const syrX = lerp(70, 250, eIO(win(p2, 0, 0.35)));
+  // Syringe choreography (tip position + angle): dip into vial, draw up, travel, pierce the back, push, withdraw.
+  const fill = eIO(win(p2, 0.12, 0.32)) * (1 - eIO(win(p2, 0.64, 0.9)));
+  const dir = (40 * Math.PI) / 180;
+  const into = { x: 452, y: 180 };
+  const outside = { x: into.x - Math.cos(dir) * 44, y: into.y - Math.sin(dir) * 44 };
+  const inside = eIO(win(p2, 0.55, 0.62)) * (1 - eIO(win(p2, 0.9, 0.97)));
+  const tip = (() => {
+    const down = eIO(win(p2, 0, 0.12)), lift = eIO(win(p2, 0.32, 0.4)), go = eIO(win(p2, 0.4, 0.55));
+    const vx = 100, vy = lerp(105, 188, down) - lift * 85;
+    const x = lerp(vx, outside.x, go) + (into.x - outside.x) * inside;
+    const y = lerp(vy, outside.y, go) - Math.sin(go * Math.PI) * 40 + (into.y - outside.y) * inside;
+    return { x, y, a: lerp(90, 40, go) };
+  })();
   const sick = res.meurt ? eIO(p3) : 0;
   const dead = res.meurt && p3 > 0.85;
   const health = 100 - sick * 100;
@@ -109,12 +117,12 @@ export function GriffithScene(p: {
         <rect x={4} y={4} width={16} height={180} rx={8} fill="url(#k-glass)" />
         <text x={60} y={-10} textAnchor="middle" fontSize={13} fontWeight={700} fill="var(--foreground)">{t("Mélange injecté", "Injected mixture")}</text>
         {pop.map((b, i) => {
-          const gone = eIO(win(p2, 0.3 + (i % 5) * 0.06, 0.75 + (i % 5) * 0.04));
+          const gone = eIO(win(p2, 0.12 + (i % 5) * 0.03, 0.24 + (i % 5) * 0.03));
           const hx = 25 + ((i * 37) % 75) + Math.sin(k * 0.8 + i) * 6;
           const hy = 85 + ((i * 53) % 85) + Math.cos(k * 0.7 + i * 2) * 5;
           return gone < 1 ? (
-            <g key={i} opacity={1 - gone}>
-              <Diplo x={hx + gone * 40} y={hy - gone * 60} rot={(i * 47) % 180} type={b.type} dead={b.dead} k={k} i={i} />
+            <g key={i} opacity={1 - gone * 0.9}>
+              <Diplo x={lerp(hx, 60, gone)} y={lerp(hy, 116, gone)} rot={(i * 47) % 180} type={b.type} dead={b.dead} k={k} i={i} />
             </g>
           ) : null;
         })}
@@ -144,25 +152,51 @@ export function GriffithScene(p: {
       </g>
       {enzymeOn && p1 > 0.15 && p2 < 0.3 && (
         <Pill x={100} y={290} o={eOut(win(p1, 0.15, 0.4)) * (1 - win(p2, 0, 0.3))}
-          text={"✂ " + ({ protease: t("Protéines détruites", "Proteins destroyed"), rnase: t("ARN détruit", "RNA destroyed"), dnase: t("ADN détruit", "DNA destroyed") } as Record<string, string>)[enz]!} />
+          text={({ protease: t("Protéines détruites", "Proteins destroyed"), rnase: t("ARN détruit", "RNA destroyed"), dnase: t("ADN détruit", "DNA destroyed") } as Record<string, string>)[enz]!} />
       )}
 
-      {/* Syringe */}
+      {/* Syringe: drawn BEFORE the mouse so the needle tip disappears under the skin of its back. */}
       {p2 > 0 && p2 < 1 && (
-        <g transform={`translate(${syrX},150) rotate(-8)`} opacity={eOut(win(p2, 0, 0.12)) * (1 - win(p2, 0.92, 1))} filter="url(#k-shadow)">
-          <rect x={0} y={-14} width={110} height={28} rx={5} fill="var(--glass)" stroke="var(--ink)" strokeOpacity={0.4} />
-          <rect x={plunger + 4} y={-11} width={Math.max(4, 104 - plunger)} height={22} rx={3} fill="var(--medium)" opacity={0.8} />
-          <rect x={plunger - 2} y={-12} width={6} height={24} rx={2} fill="var(--brown)" />
-          <rect x={plunger - 60} y={-3} width={60} height={6} fill="var(--brown)" />
-          <rect x={plunger - 66} y={-14} width={8} height={28} rx={3} fill="var(--brown)" />
-          <rect x={110} y={-5} width={10} height={10} fill="var(--ink)" opacity={0.5} />
-          <path d="M120,-1.2 L172,0 L120,1.2 z" fill="var(--ink)" opacity={0.7} />
-          <rect x={4} y={-12} width={100} height={6} rx={3} fill="url(#k-glass)" />
+        <g transform={`translate(${tip.x},${tip.y}) rotate(${tip.a})`} opacity={eOut(win(p2, 0, 0.06)) * (1 - win(p2, 0.95, 1))} filter="url(#k-shadow)">
+          {/* needle + hub */}
+          <path d="M-52,-1.6 L0,-0.3 L0,0.3 L-52,1.6 z" fill="var(--ink)" opacity={0.75} />
+          <path d="M-52,-0.6 L-6,-0.2" stroke="white" strokeOpacity={0.6} strokeWidth={0.6} />
+          <rect x={-62} y={-5} width={10} height={10} rx={2} fill="var(--brown)" opacity={0.85} />
+          {/* barrel */}
+          <rect x={-172} y={-13} width={110} height={26} rx={5} fill="var(--glass)" stroke="var(--ink)" strokeOpacity={0.4} />
+          {/* liquid with suspended bacteria */}
+          {fill > 0.01 && (
+            <rect x={-64 - fill * 96} y={-10.5} width={fill * 96} height={21} rx={3} fill="var(--medium)" opacity={0.85} />
+          )}
+          {Array.from({ length: 5 }, (_, j) => {
+            const shown = fill * 5 > j + 0.3;
+            if (!shown) return null;
+            const bx = -68 - ((j + 0.5) / 5) * fill * 92;
+            const by = Math.sin(k * 3 + j * 2) * 4;
+            const b = pop[j % Math.max(1, pop.length)];
+            return (
+              <g key={j} transform={`translate(${bx},${by}) scale(0.42)`}>
+                <Diplo x={0} y={0} rot={j * 50} type={b?.type ?? "R"} dead={b?.dead} k={k} i={j} />
+              </g>
+            );
+          })}
+          {/* graduations */}
+          {Array.from({ length: 9 }, (_, j) => (
+            <line key={j} x1={-72 - j * 11} x2={-72 - j * 11} y1={-13} y2={j % 2 ? -9 : -6} stroke="var(--ink)" strokeOpacity={0.35} />
+          ))}
+          {/* plunger seal + rod + thumb rest */}
+          <rect x={-70 - fill * 96} y={-11} width={7} height={22} rx={2} fill="var(--brown)" />
+          <rect x={-170 - fill * 96} y={-3} width={100} height={6} fill="var(--brown)" opacity={0.9} />
+          <rect x={-178 - fill * 96} y={-15} width={8} height={30} rx={3} fill="var(--brown)" />
+          <rect x={-176} y={-19} width={5} height={38} rx={2} fill="var(--ink)" opacity={0.35} />
+          <rect x={-168} y={-11} width={102} height={5} rx={2.5} fill="url(#k-glass)" />
         </g>
       )}
+      {/* skin dimple at the injection point */}
+      {inside > 0 && p2 < 0.97 && <ellipse cx={449} cy={169} rx={6 * inside} ry={2.2 * inside} fill="var(--rose-deep)" opacity={0.5} />}
 
       {/* Mouse */}
-      <g transform="translate(470,200)">
+      <g transform={`translate(${470 + Math.sin(win(p2, 0.55, 0.68) * Math.PI * 3) * 3},${200 - Math.sin(win(p2, 0.55, 0.68) * Math.PI) * 4})`}>
         <ellipse cx={-10} cy={62} rx={95} ry={8} fill="var(--ink)" opacity={0.1} />
         <Mouse k={k} sick={sick} dead={dead} />
       </g>
