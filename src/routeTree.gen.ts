@@ -14,6 +14,7 @@ import { Route as GriffithRouteImport } from './routes/griffith'
 import { Route as HersheyChaseRouteImport } from './routes/hershey-chase'
 import { Route as ReplicationRouteImport } from './routes/replication'
 import { Route as StructureRouteImport } from './routes/structure'
+import { Route as TraductionRouteImport } from './routes/traduction'
 import { Route as TranscriptionRouteImport } from './routes/transcription'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const StructureRoute = StructureRouteImport.update({
   path: '/structure',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TraductionRoute = TraductionRouteImport.update({
+  id: '/traduction',
+  path: '/traduction',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TranscriptionRoute = TranscriptionRouteImport.update({
   id: '/transcription',
   path: '/transcription',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/hershey-chase': typeof HersheyChaseRoute
   '/replication': typeof ReplicationRoute
   '/structure': typeof StructureRoute
+  '/traduction': typeof TraductionRoute
   '/transcription': typeof TranscriptionRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/hershey-chase': typeof HersheyChaseRoute
   '/replication': typeof ReplicationRoute
   '/structure': typeof StructureRoute
+  '/traduction': typeof TraductionRoute
   '/transcription': typeof TranscriptionRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/hershey-chase': typeof HersheyChaseRoute
   '/replication': typeof ReplicationRoute
   '/structure': typeof StructureRoute
+  '/traduction': typeof TraductionRoute
   '/transcription': typeof TranscriptionRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/hershey-chase'
     | '/replication'
     | '/structure'
+    | '/traduction'
     | '/transcription'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/hershey-chase'
     | '/replication'
     | '/structure'
+    | '/traduction'
     | '/transcription'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/hershey-chase'
     | '/replication'
     | '/structure'
+    | '/traduction'
     | '/transcription'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   HersheyChaseRoute: typeof HersheyChaseRoute
   ReplicationRoute: typeof ReplicationRoute
   StructureRoute: typeof StructureRoute
+  TraductionRoute: typeof TraductionRoute
   TranscriptionRoute: typeof TranscriptionRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StructureRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/traduction': {
+      id: '/traduction'
+      path: '/traduction'
+      fullPath: '/traduction'
+      preLoaderRoute: typeof TraductionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/transcription': {
       id: '/transcription'
       path: '/transcription'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   HersheyChaseRoute: HersheyChaseRoute,
   ReplicationRoute: ReplicationRoute,
   StructureRoute: StructureRoute,
+  TraductionRoute: TraductionRoute,
   TranscriptionRoute: TranscriptionRoute,
 }
 export const routeTree = rootRouteImport
