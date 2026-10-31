@@ -10,33 +10,115 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GriffithRouteImport } from './routes/griffith'
+import { Route as HersheyChaseRouteImport } from './routes/hershey-chase'
+import { Route as ReplicationRouteImport } from './routes/replication'
+import { Route as StructureRouteImport } from './routes/structure'
+import { Route as TraductionRouteImport } from './routes/traduction'
+import { Route as TranscriptionRouteImport } from './routes/transcription'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GriffithRoute = GriffithRouteImport.update({
+  id: '/griffith',
+  path: '/griffith',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HersheyChaseRoute = HersheyChaseRouteImport.update({
+  id: '/hershey-chase',
+  path: '/hershey-chase',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReplicationRoute = ReplicationRouteImport.update({
+  id: '/replication',
+  path: '/replication',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StructureRoute = StructureRouteImport.update({
+  id: '/structure',
+  path: '/structure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TraductionRoute = TraductionRouteImport.update({
+  id: '/traduction',
+  path: '/traduction',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TranscriptionRoute = TranscriptionRouteImport.update({
+  id: '/transcription',
+  path: '/transcription',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/griffith': typeof GriffithRoute
+  '/hershey-chase': typeof HersheyChaseRoute
+  '/replication': typeof ReplicationRoute
+  '/structure': typeof StructureRoute
+  '/traduction': typeof TraductionRoute
+  '/transcription': typeof TranscriptionRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/griffith': typeof GriffithRoute
+  '/hershey-chase': typeof HersheyChaseRoute
+  '/replication': typeof ReplicationRoute
+  '/structure': typeof StructureRoute
+  '/traduction': typeof TraductionRoute
+  '/transcription': typeof TranscriptionRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/griffith': typeof GriffithRoute
+  '/hershey-chase': typeof HersheyChaseRoute
+  '/replication': typeof ReplicationRoute
+  '/structure': typeof StructureRoute
+  '/traduction': typeof TraductionRoute
+  '/transcription': typeof TranscriptionRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/griffith'
+    | '/hershey-chase'
+    | '/replication'
+    | '/structure'
+    | '/traduction'
+    | '/transcription'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/griffith'
+    | '/hershey-chase'
+    | '/replication'
+    | '/structure'
+    | '/traduction'
+    | '/transcription'
+  id:
+    | '__root__'
+    | '/'
+    | '/griffith'
+    | '/hershey-chase'
+    | '/replication'
+    | '/structure'
+    | '/traduction'
+    | '/transcription'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  GriffithRoute: typeof GriffithRoute
+  HersheyChaseRoute: typeof HersheyChaseRoute
+  ReplicationRoute: typeof ReplicationRoute
+  StructureRoute: typeof StructureRoute
+  TraductionRoute: typeof TraductionRoute
+  TranscriptionRoute: typeof TranscriptionRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +130,59 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/griffith': {
+      id: '/griffith'
+      path: '/griffith'
+      fullPath: '/griffith'
+      preLoaderRoute: typeof GriffithRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hershey-chase': {
+      id: '/hershey-chase'
+      path: '/hershey-chase'
+      fullPath: '/hershey-chase'
+      preLoaderRoute: typeof HersheyChaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/replication': {
+      id: '/replication'
+      path: '/replication'
+      fullPath: '/replication'
+      preLoaderRoute: typeof ReplicationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/structure': {
+      id: '/structure'
+      path: '/structure'
+      fullPath: '/structure'
+      preLoaderRoute: typeof StructureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/traduction': {
+      id: '/traduction'
+      path: '/traduction'
+      fullPath: '/traduction'
+      preLoaderRoute: typeof TraductionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/transcription': {
+      id: '/transcription'
+      path: '/transcription'
+      fullPath: '/transcription'
+      preLoaderRoute: typeof TranscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  GriffithRoute: GriffithRoute,
+  HersheyChaseRoute: HersheyChaseRoute,
+  ReplicationRoute: ReplicationRoute,
+  StructureRoute: StructureRoute,
+  TraductionRoute: TraductionRoute,
+  TranscriptionRoute: TranscriptionRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
