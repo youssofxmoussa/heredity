@@ -69,11 +69,12 @@ export function SheetLayout(p: {
         <Link to="/" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-card shadow-soft" aria-label={t("Sommaire", "Contents")}>
           <ArrowLeft className="h-5 w-5" />
         </Link>
+        <img src={sheet.icon} alt="" width={384} height={384} className="h-14 w-14 shrink-0 object-contain drop-shadow sm:h-16 sm:w-16" />
         <div>
-          <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             {t("Feuille", "Sheet")} {p.num} · {t(sheet.section, sheet.sectionEn)}
           </p>
-          <h1 className="font-display text-2xl leading-tight sm:text-3xl">{t(sheet.titre, sheet.titreEn)}</h1>
+          <h1 className="font-display text-3xl leading-tight sm:text-4xl">{t(sheet.titre, sheet.titreEn)}</h1>
         </div>
       </header>
 
@@ -113,7 +114,7 @@ export function SheetLayout(p: {
 
       <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
         <div className="space-y-3">
-          <div className="overflow-hidden rounded-3xl bg-card p-2 shadow-soft">{p.scene}</div>
+          <div className="overflow-hidden rounded-3xl border border-border/70 bg-card p-1.5 shadow-luxe">{p.scene}</div>
           <div className="flex flex-wrap gap-2 rounded-2xl bg-card p-3 text-sm shadow-soft">
             <b className="mr-1">{t("Légende :", "Key:")}</b>
             {p.legend.map((l) => (
@@ -128,7 +129,7 @@ export function SheetLayout(p: {
           <button
             onClick={sim.toggle}
             disabled={sim.done}
-            className="flex h-16 w-full items-center justify-center gap-2 rounded-2xl bg-primary text-xl font-bold text-primary-foreground shadow-soft transition active:scale-95 disabled:opacity-50"
+            className="flex h-16 w-full items-center justify-center gap-2 rounded-2xl bg-primary bg-gradient-to-br from-primary to-primary/80 text-xl font-bold text-primary-foreground shadow-soft transition active:scale-95 disabled:opacity-50"
           >
             {sim.running ? <Pause /> : <Play />}
             {sim.running ? "Pause" : sim.started ? (sim.done ? t("Terminé", "Done") : t("Continuer", "Continue")) : (p.startLabel ?? t("Démarrer", "Start"))}

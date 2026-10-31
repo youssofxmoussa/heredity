@@ -23,27 +23,36 @@ const groups = [
 function Home() {
   const t = useT();
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8">
-      <p className="pr-28 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t("Génétique · Chapitre 1", "Genetics · Chapter 1")}</p>
-      <h1 className="font-display text-4xl leading-tight sm:text-5xl">{t("Bases biochimiques de l'hérédité", "Biochemical basis of heredity")}</h1>
-      <p className="mt-2 text-lg text-muted-foreground">
-        {t("Manipule, observe, réponds. 6 feuilles à suivre dans l'ordre.", "Experiment, observe, answer. 6 sheets to follow in order.")}
-      </p>
-      <div className="mt-8 space-y-6">
+    <main className="mx-auto max-w-4xl px-4 py-8 sm:py-12">
+      <section className="relative overflow-hidden rounded-[2rem] bg-luxe p-6 shadow-luxe sm:p-10">
+        <img src={sheets[2]!.icon} alt="" width={384} height={384} className="pointer-events-none absolute -right-10 -top-6 h-48 w-48 rotate-12 opacity-90 sm:h-64 sm:w-64" />
+        <p className="pr-28 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">{t("Génétique · Chapitre 1", "Genetics · Chapter 1")}</p>
+        <h1 className="mt-3 max-w-lg font-display text-5xl leading-[0.95] sm:text-6xl">
+          {t("Bases biochimiques ", "Biochemical basis ")}
+          <em className="text-primary">{t("de l'hérédité", "of heredity")}</em>
+        </h1>
+        <div className="mt-4 h-px w-24 bg-primary/40" />
+        <p className="mt-4 max-w-md text-base text-muted-foreground sm:text-lg">
+          {t("Manipule, observe, réponds. 6 feuilles à suivre dans l'ordre.", "Experiment, observe, answer. 6 sheets to follow in order.")}
+        </p>
+      </section>
+      <div className="mt-10 space-y-8">
         {groups.map((g) => (
           <section key={g.fr}>
-            <h2 className="mb-2 font-display text-xl">{t(g.fr, g.en)}</h2>
-            <div className="grid gap-3 sm:grid-cols-2">
+            <h2 className="mb-3 font-display text-2xl italic text-primary">{t(g.fr, g.en)}</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
               {g.ids.map((id) => {
                 const s = sheets[id]!;
                 return (
-                  <Link key={s.to} to={s.to} className="flex items-center gap-4 rounded-3xl bg-card p-5 shadow-soft transition hover:-translate-y-0.5">
-                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-primary/15 text-3xl">{s.emoji}</span>
+                  <Link key={s.to} to={s.to} className="group flex items-center gap-4 rounded-3xl border border-border/70 bg-card/80 p-4 shadow-soft backdrop-blur transition duration-300 hover:-translate-y-1 hover:shadow-luxe">
+                    <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-luxe">
+                      <img src={s.icon} alt="" width={384} height={384} loading="lazy" className="h-[4.5rem] w-[4.5rem] object-contain transition duration-500 group-hover:-rotate-6 group-hover:scale-110" />
+                    </span>
                     <span>
-                      <span className="block text-xs font-bold text-muted-foreground">
-                        {t("Feuille", "Sheet")} {id + 1}
+                      <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        {t("Feuille", "Sheet")} {String(id + 1).padStart(2, "0")}
                       </span>
-                      <span className="block text-lg font-bold leading-tight">{t(s.titre, s.titreEn)}</span>
+                      <span className="block font-display text-2xl leading-tight">{t(s.titre, s.titreEn)}</span>
                     </span>
                   </Link>
                 );
