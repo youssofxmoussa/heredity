@@ -4,6 +4,7 @@ import { useT } from "@/lib/i18n";
 import { baseColors, pageMeta } from "@/lib/sheets";
 import { COMP, phase, useSim } from "@/lib/genetics";
 import { Bars, Choice, SheetLayout } from "@/components/SheetLayout";
+import { TranscriptionScene } from "@/components/TranscriptionScene";
 
 export const Route = createFileRoute("/transcription")({
   head: () => ({ meta: pageMeta("Transcription — Génétique ch.1", "Regarde l'ARN polymérase lire l'ADN et fabriquer l'ARNm, avec ou sans promoteur.") }),
@@ -31,11 +32,7 @@ function Page() {
   const n = rna.length;
   const has = promo === "oui";
   const p0 = phase(sim, 0), p1 = phase(sim, 1), p2 = phase(sim, 2), p3 = phase(sim, 3), p4 = phase(sim, 4);
-  const made = has ? Math.floor(p2 * n) : 0;
-  const w = 440 / n;
-  const polX = has ? 40 + p0 * 50 + n * w * p2 : 40 + p0 * 30;
-  const polY = 160 - p3 * 120 * (has ? 1 : 0);
-  const rnaY = 175 + p4 * 70;
+  const made = has ? Math.min(n, Math.floor(p2 * (n + 0.999))) : 0;
   const counts: Record<string, number> = { A: 0, U: 0, G: 0, C: 0 };
   rna.slice(0, made).split("").forEach((b) => (counts[b] = (counts[b] ?? 0) + 1));
 
@@ -75,41 +72,7 @@ function Page() {
           ]} />
         </>
       }
-      scene={
-        <svg viewBox="0 0 600 320" className="w-full">
-          {has && <rect x={40} y={92} width={70} height={84} rx={8} fill="var(--danger)" opacity={0.25} />}
-          <text x={75} y={86} textAnchor="middle" fontSize={11} fill="var(--foreground)">{has ? t("promoteur", "promoter") : t("pas de promoteur", "no promoter")}</text>
-          <text x={14} y={110} fontSize={12} fontWeight={700} fill="var(--foreground)">5'</text>
-          <text x={14} y={172} fontSize={12} fontWeight={700} fill="var(--foreground)">3'</text>
-          <text x={8} y={124} fontSize={9} fill="var(--muted-foreground)">{t("codant", "coding")}</text>
-          <text x={4} y={186} fontSize={9} fill="var(--muted-foreground)">{t("matrice", "template")}</text>
-          {coding.map((b, i) => {
-            const x = 120 + i * w;
-            const open = has && p1 > 0 && Math.abs(x - polX) < 70 && p3 < 1;
-            return (
-              <g key={i}>
-                <rect x={x} y={open ? 92 : 106} width={w - 2} height={18} rx={3} fill={baseColors[b]} />
-                <text x={x + w / 2 - 1} y={(open ? 92 : 106) + 13} textAnchor="middle" fontSize={11}>{b}</text>
-                <rect x={x} y={open ? 158 : 130} width={w - 2} height={18} rx={3} fill={baseColors[template[i] ?? ""]} />
-                <text x={x + w / 2 - 1} y={(open ? 158 : 130) + 13} textAnchor="middle" fontSize={11}>{template[i]}</text>
-                {i < made && (
-                  <>
-                    <rect x={x} y={rnaY + 8} width={w - 2} height={18} rx={3} fill={baseColors[rna[i] ?? ""]} />
-                    <text x={x + w / 2 - 1} y={rnaY + 21} textAnchor="middle" fontSize={11} fontWeight={700}>{rna[i]}</text>
-                  </>
-                )}
-              </g>
-            );
-          })}
-          {made > 0 && <rect x={120} y={rnaY + 4} width={made * w} height={2} fill="var(--rna)" />}
-          {made > 0 && <text x={98} y={rnaY + 22} fontSize={12} fontWeight={700} fill="var(--rna)">5'</text>}
-          {sim.started && <ellipse cx={polX} cy={polY} rx={34} ry={44} fill="var(--enzyme)" opacity={0.55} />}
-          {sim.started && <text x={polX} y={polY + 4} textAnchor="middle" fontSize={10} fontWeight={700} fill="var(--foreground)">{t("ARN pol.", "RNA pol.")}</text>}
-          {made > 0 && <text x={120 + made * w + 6} y={rnaY + 22} fontSize={12} fontWeight={700} fill="var(--rna)">3'</text>}
-          {made > 0 && <text x={120} y={rnaY + 44} fontSize={13} fontWeight={700} fill="var(--rna)">{t("ARNm (U à la place de T)", "mRNA (U instead of T)")}</text>}
-          {!has && sim.step >= 1 && <text x={300} y={260} textAnchor="middle" fontWeight={700} fill="var(--danger)">{t("L'ARN polymérase ne se fixe pas : pas d'ARN !", "RNA polymerase does not bind: no RNA!")}</text>}
-        </svg>
-      }
+      scene={<TranscriptionScene rna={rna} coding={coding} template={template} has={has} p0={p0} p1={p1} p2={p2} p3={p3} p4={p4} started={sim.started} t={t} />}
       mesure={
         <>
           <p className="mb-2 text-sm">
