@@ -112,13 +112,12 @@ function chainPoints(ax: number, ay: number, n: number, now: number, wob: number
 }
 
 function foldedPoints(n: number, cx: number, cy: number) {
-  const pts: [number, number][] = [];
-  for (let k = 0; k < n; k++) {
-    const a = k * 2.399;
-    const r = 15 * Math.sqrt(k);
-    pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r * 0.8]);
-  }
-  return pts;
+  // compact coil: beads evenly spaced on a small loop, readable labels
+  const R = Math.max(24, (n * 30) / (2 * Math.PI));
+  return Array.from({ length: n }, (_, k) => {
+    const a = -Math.PI / 2 + (k / Math.max(1, n)) * Math.PI * 2;
+    return [cx + Math.cos(a) * R, cy + Math.sin(a) * R * 0.85] as [number, number];
+  });
 }
 
 /* ---------- scene ---------- */
@@ -205,7 +204,7 @@ export function TranslationScene({ sim, seq, frame, t }: { sim: Sim; seq: string
   const anchor: [number, number] = holderTR ? [holderTR.x, holderTR.y + ACC_DY] : [X0, ANTI_Y + ACC_DY];
   const wob = 1 - release;
   const cPts = chainLen > 0 ? chainPoints(anchor[0], anchor[1], chainLen, now, wob) : [];
-  const fPts = foldedPoints(chainLen, X0 - 130, 92);
+  const fPts = foldedPoints(chainLen, X0, 130);
   // newest amino acid is at index 0 of the path; aa index = holder - k
   const beads = cPts.map(([x, y], k) => {
     const [fx, fy] = fPts[k] ?? [x, y];
