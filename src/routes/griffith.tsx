@@ -1,13 +1,13 @@
+import { pageHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
 import { GriffithScene } from "@/components/GriffithScene";
-import { pageMeta } from "@/lib/sheets";
 import { griffithResult, phase, useSim } from "@/lib/genetics";
 import { Bars, Choice, SheetLayout } from "@/components/SheetLayout";
 
 export const Route = createFileRoute("/griffith")({
-  head: () => ({ meta: pageMeta("Griffith & Avery — Génétique ch.1", "Simule la transformation bactérienne et découvre que l'ADN est le principe transformant.") }),
+  head: () => pageHead("/griffith"),
   component: Page,
 });
 

@@ -1,13 +1,14 @@
+import { pageHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useT } from "@/lib/i18n";
-import { baseColors, pageMeta } from "@/lib/sheets";
+import { baseColors } from "@/lib/sheets";
 import { chargaff, COMP, phase, useSim } from "@/lib/genetics";
 import { Bars, SheetLayout, Slider } from "@/components/SheetLayout";
 import { StructureScene } from "@/components/StructureScene";
 
 export const Route = createFileRoute("/structure")({
-  head: () => ({ meta: pageMeta("Structure de l'ADN — Génétique ch.1", "Assemble les nucléotides, observe l'appariement A–T / G–C et la double hélice.") }),
+  head: () => pageHead("/structure"),
   component: Page,
 });
 

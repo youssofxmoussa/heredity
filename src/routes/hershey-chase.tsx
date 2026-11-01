@@ -1,13 +1,13 @@
+import { pageHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
 import { HersheyScene } from "@/components/HersheyScene";
-import { pageMeta } from "@/lib/sheets";
 import { hersheyResult, phase, useSim } from "@/lib/genetics";
 import { Bars, Choice, SheetLayout, Slider } from "@/components/SheetLayout";
 
 export const Route = createFileRoute("/hershey-chase")({
-  head: () => ({ meta: pageMeta("Hershey–Chase — Génétique ch.1", "Marque l'ADN ou les protéines du phage T2 et découvre quelle molécule entre dans la bactérie.") }),
+  head: () => pageHead("/hershey-chase"),
   component: Page,
 });
 

@@ -1,13 +1,14 @@
+import { pageHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
-import { baseColors, pageMeta } from "@/lib/sheets";
+import { baseColors } from "@/lib/sheets";
 import { COMP, phase, useSim } from "@/lib/genetics";
 import { Bars, Choice, SheetLayout } from "@/components/SheetLayout";
 import { TranscriptionScene } from "@/components/TranscriptionScene";
 
 export const Route = createFileRoute("/transcription")({
-  head: () => ({ meta: pageMeta("Transcription — Génétique ch.1", "Regarde l'ARN polymérase lire l'ADN et fabriquer l'ARNm, avec ou sans promoteur.") }),
+  head: () => pageHead("/transcription"),
   component: Page,
 });
 
