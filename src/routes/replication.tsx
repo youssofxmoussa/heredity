@@ -1,13 +1,13 @@
+import { pageHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
-import { pageMeta } from "@/lib/sheets";
 import { meselson, phase, useSim } from "@/lib/genetics";
 import { Choice, SheetLayout, Slider } from "@/components/SheetLayout";
 import { ReplicationScene } from "@/components/ReplicationScene";
 
 export const Route = createFileRoute("/replication")({
-  head: () => ({ meta: pageMeta("Réplication de l'ADN — Génétique ch.1", "Hélicase, primase, ADN polymérase, fragments d'Okazaki et expérience de Meselson–Stahl.") }),
+  head: () => pageHead("/replication"),
   component: Page,
 });
 

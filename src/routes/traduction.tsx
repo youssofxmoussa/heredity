@@ -1,18 +1,13 @@
+import { pageHead } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
-import { pageMeta } from "@/lib/sheets";
 import { MRNAS, mutate, phase, readFrame, useSim } from "@/lib/genetics";
 import { Choice, SheetLayout } from "@/components/SheetLayout";
 import { TranslationScene } from "@/components/TranslationScene";
 
 export const Route = createFileRoute("/traduction")({
-  head: () => ({
-    meta: pageMeta(
-      "Traduction / Translation — Génétique ch.1",
-      "Le ribosome lit l'ARNm codon par codon et assemble la protéine. Teste des mutations. (FR/EN)",
-    ),
-  }),
+  head: () => pageHead("/traduction"),
   component: Page,
 });
 
