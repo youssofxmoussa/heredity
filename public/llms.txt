@@ -1,0 +1,16 @@
+# Heredo Lab
+
+> Bilingual French/English interactive genetics education: six lessons on the biochemical basis of heredity. French is the initial page language; English is available through the language switch.
+
+Website built by Youssof Moussa. Scientific teaching attribution: Dr. Mohamad DIAB, PhD in Medical and Food Microbiology, Assistant Professor at the Lebanese University.
+
+## Lessons
+- [Griffith and Avery](/griffith): Bacterial transformation, S and R strains, and the effect of DNase on the transforming principle.
+- [Hershey–Chase](/hershey-chase): T2 bacteriophage infection, phosphorus-32 and sulfur-35 labels, blending and centrifugation.
+- [DNA structure](/structure): Nucleotides, A–T and G–C pairing, hydrogen bonds, Chargaff's rule and antiparallel strands.
+- [DNA replication](/replication): Helicase, primase, polymerase, ligase, Okazaki fragments and Meselson–Stahl models.
+- [Transcription](/transcription): Promoter recognition, template-strand reading and messenger RNA synthesis.
+- [Translation](/traduction): Ribosome, tRNA anticodons, initiation, elongation, termination and mutations.
+
+## Scope
+These are simplified educational simulations, not experimental measurements or medical advice. Lesson introductions and conclusions provide readable explanations; observation questions have answer corrections available in the lesson. Builder attribution does not replace scientific authorship. This file is an optional discovery aid, not a guarantee of AI citations or search recommendations.
