@@ -7,6 +7,6 @@
 - [x] Icons as WebP (transparent), cached; no emojis in UI
 - [x] Mobile responsive everywhere
 - [x] Browser-test all six lessons, fix glitches
-- [ ] Improve search and AI metadata across all seven pages; metadata-only builder attribution
-- [ ] Create matching favicon and social artwork; remove default favicon
-- [ ] Verify rendered metadata and existing tests
+- [x] Improve search and AI metadata across all seven pages; metadata-only builder attribution
+- [x] Create matching favicon and social artwork; remove default favicon
+- [x] Verify rendered metadata and existing tests
