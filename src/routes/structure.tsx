@@ -1,4 +1,4 @@
-import { pageHead } from "@/lib/seo";
+import { pageHead, languageDeps } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useT } from "@/lib/i18n";
@@ -8,7 +8,9 @@ import { Bars, SheetLayout, Slider } from "@/components/SheetLayout";
 import { StructureScene } from "@/components/StructureScene";
 
 export const Route = createFileRoute("/structure")({
-  head: () => pageHead("/structure"),
+  staticData: { sitemap: true },
+  loaderDeps: languageDeps,
+  head: ({ loaderDeps }) => pageHead("/structure", loaderDeps.lang),
   component: Page,
 });
 

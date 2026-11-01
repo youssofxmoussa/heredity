@@ -1,11 +1,13 @@
-import { pageHead } from "@/lib/seo";
+import { pageHead, languageDeps } from "@/lib/seo";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useT } from "@/lib/i18n";
 import { sheets } from "@/lib/sheets";
 import { AuthorFooter } from "@/components/SheetLayout";
 
 export const Route = createFileRoute("/")({
-  head: () => pageHead("/"),
+  staticData: { sitemap: true },
+  loaderDeps: languageDeps,
+  head: ({ loaderDeps }) => pageHead("/", loaderDeps.lang),
   component: Home,
 });
 
