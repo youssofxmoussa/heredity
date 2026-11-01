@@ -1,42 +1,13 @@
-import { useSyncExternalStore } from "react";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
+import { resolveLang, type Lang } from "./language";
 
-export type Lang = "fr" | "en";
+export type { Lang } from "./language";
 export type T = (fr: string, en: string) => string;
 
-let current: Lang = "fr";
-const subs = new Set<() => void>();
-
-export function setLang(l: Lang) {
-  current = l;
-  try {
-    localStorage.setItem("lang", l);
-  } catch {
-    /* ignore */
-  }
-  if (typeof document !== "undefined") document.documentElement.lang = l;
-  subs.forEach((f) => f());
-}
-
-export function initLang() {
-  try {
-    const l = localStorage.getItem("lang");
-    if (l === "en" || l === "fr") setLang(l);
-  } catch {
-    /* ignore */
-  }
-}
-
 export function useLang(): Lang {
-  return useSyncExternalStore(
-    (cb) => {
-      subs.add(cb);
-      return () => {
-        subs.delete(cb);
-      };
-    },
-    () => current,
-    () => "fr",
-  );
+  const search = useSearch({ strict: false });
+  return resolveLang(search.lang);
 }
 
 export function useT(): T {
@@ -46,21 +17,24 @@ export function useT(): T {
 
 export function LangSwitch() {
   const lang = useLang();
+  const navigate = useNavigate();
+  const t = useT();
   return (
     <div
       className="flex shrink-0 overflow-hidden rounded-full border border-border/70 bg-card p-0.5 shadow-soft"
       role="group"
-      aria-label="Langue / Language"
+      aria-label={t("Langue", "Language")}
     >
       {(["fr", "en"] as const).map((l) => (
-        <button
+        <Button
           key={l}
-          onClick={() => setLang(l)}
+          variant="ghost"
+          onClick={() => navigate({ search: (prev) => ({ ...prev, lang: l === "en" ? "en" : undefined }), resetScroll: false })}
           aria-pressed={lang === l}
           className={`h-10 min-w-11 rounded-full px-3 text-sm font-bold transition ${lang === l ? "bg-primary text-primary-foreground" : "text-muted-foreground"}`}
         >
           {l.toUpperCase()}
-        </button>
+        </Button>
       ))}
     </div>
   );

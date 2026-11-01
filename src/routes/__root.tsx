@@ -6,13 +6,15 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  retainSearchParams,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { initLang, LangSwitch } from "../lib/i18n";
+import { LangSwitch, useLang } from "../lib/i18n";
+import { validateLanguageSearch } from "../lib/language";
 
 function NotFoundComponent() {
   return (
@@ -75,6 +77,9 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
+  validateSearch: validateLanguageSearch,
+  search: { middlewares: [retainSearchParams(["lang"])] },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -98,8 +103,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const lang = useLang();
   return (
-    <html lang="fr">
+    <html lang={lang}>
       <head>
         <HeadContent />
       </head>
@@ -113,9 +119,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  useEffect(() => {
-    initLang();
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
