@@ -10,3 +10,6 @@
 - [x] Improve search and AI metadata across all seven pages; metadata-only builder attribution
 - [x] Create matching favicon and social artwork; remove default favicon
 - [x] Verify rendered metadata and existing tests
+- [ ] Add router-derived bilingual sitemap and crawler rules for the Vercel domain
+- [ ] Make language selection URL-based with French/English search metadata
+- [ ] Verify all language pages and explain Google submission and ranking next steps

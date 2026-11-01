@@ -1,4 +1,4 @@
-import { pageHead } from "@/lib/seo";
+import { pageHead, languageDeps } from "@/lib/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
@@ -7,7 +7,9 @@ import { hersheyResult, phase, useSim } from "@/lib/genetics";
 import { Bars, Choice, SheetLayout, Slider } from "@/components/SheetLayout";
 
 export const Route = createFileRoute("/hershey-chase")({
-  head: () => pageHead("/hershey-chase"),
+  staticData: { sitemap: true },
+  loaderDeps: languageDeps,
+  head: ({ loaderDeps }) => pageHead("/hershey-chase", loaderDeps.lang),
   component: Page,
 });
 
