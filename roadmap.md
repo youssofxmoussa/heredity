@@ -14,4 +14,4 @@
 - [x] Make language selection URL-based with French/English search metadata
 - [x] Verify all language pages and explain Google submission and ranking next steps
 - [ ] Six-lesson French explainer video (reference style)
-- [ ] LegendMotion skill
+- [x] LegendMotion skill
