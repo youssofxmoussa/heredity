@@ -1,4 +1,5 @@
-import { pageHead, languageDeps } from "@/lib/seo";
+import { pageHead } from "@/lib/seo";
+import { resolveLang } from "@/lib/language";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
@@ -9,8 +10,7 @@ import { TranscriptionScene } from "@/components/TranscriptionScene";
 
 export const Route = createFileRoute("/transcription")({
   staticData: { sitemap: true },
-  loaderDeps: languageDeps,
-  head: ({ loaderDeps }) => pageHead("/transcription", loaderDeps.lang),
+  head: ({ match }) => pageHead("/transcription", resolveLang(match.search.lang)),
   component: Page,
 });
 

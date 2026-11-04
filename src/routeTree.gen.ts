@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GriffithRouteImport } from './routes/griffith'
 import { Route as HersheyChaseRouteImport } from './routes/hershey-chase'
 import { Route as ReplicationRouteImport } from './routes/replication'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StructureRouteImport } from './routes/structure'
 import { Route as TraductionRouteImport } from './routes/traduction'
 import { Route as TranscriptionRouteImport } from './routes/transcription'
@@ -37,6 +38,11 @@ const ReplicationRoute = ReplicationRouteImport.update({
   path: '/replication',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StructureRoute = StructureRouteImport.update({
   id: '/structure',
   path: '/structure',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/griffith': typeof GriffithRoute
   '/hershey-chase': typeof HersheyChaseRoute
   '/replication': typeof ReplicationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/structure': typeof StructureRoute
   '/traduction': typeof TraductionRoute
   '/transcription': typeof TranscriptionRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/griffith': typeof GriffithRoute
   '/hershey-chase': typeof HersheyChaseRoute
   '/replication': typeof ReplicationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/structure': typeof StructureRoute
   '/traduction': typeof TraductionRoute
   '/transcription': typeof TranscriptionRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/griffith': typeof GriffithRoute
   '/hershey-chase': typeof HersheyChaseRoute
   '/replication': typeof ReplicationRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/structure': typeof StructureRoute
   '/traduction': typeof TraductionRoute
   '/transcription': typeof TranscriptionRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/griffith'
     | '/hershey-chase'
     | '/replication'
+    | '/sitemap.xml'
     | '/structure'
     | '/traduction'
     | '/transcription'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/griffith'
     | '/hershey-chase'
     | '/replication'
+    | '/sitemap.xml'
     | '/structure'
     | '/traduction'
     | '/transcription'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/griffith'
     | '/hershey-chase'
     | '/replication'
+    | '/sitemap.xml'
     | '/structure'
     | '/traduction'
     | '/transcription'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   GriffithRoute: typeof GriffithRoute
   HersheyChaseRoute: typeof HersheyChaseRoute
   ReplicationRoute: typeof ReplicationRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StructureRoute: typeof StructureRoute
   TraductionRoute: typeof TraductionRoute
   TranscriptionRoute: typeof TranscriptionRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReplicationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/structure': {
       id: '/structure'
       path: '/structure'
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   GriffithRoute: GriffithRoute,
   HersheyChaseRoute: HersheyChaseRoute,
   ReplicationRoute: ReplicationRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StructureRoute: StructureRoute,
   TraductionRoute: TraductionRoute,
   TranscriptionRoute: TranscriptionRoute,
