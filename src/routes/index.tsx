@@ -1,4 +1,5 @@
-import { pageHead, languageDeps } from "@/lib/seo";
+import { pageHead } from "@/lib/seo";
+import { resolveLang } from "@/lib/language";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useT } from "@/lib/i18n";
 import { sheets } from "@/lib/sheets";
@@ -6,8 +7,7 @@ import { AuthorFooter } from "@/components/SheetLayout";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
-  loaderDeps: languageDeps,
-  head: ({ loaderDeps }) => pageHead("/", loaderDeps.lang),
+  head: ({ match }) => pageHead("/", resolveLang(match.search.lang)),
   component: Home,
 });
 

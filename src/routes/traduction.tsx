@@ -1,4 +1,5 @@
-import { pageHead, languageDeps } from "@/lib/seo";
+import { pageHead } from "@/lib/seo";
+import { resolveLang } from "@/lib/language";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
@@ -8,8 +9,7 @@ import { TranslationScene } from "@/components/TranslationScene";
 
 export const Route = createFileRoute("/traduction")({
   staticData: { sitemap: true },
-  loaderDeps: languageDeps,
-  head: ({ loaderDeps }) => pageHead("/traduction", loaderDeps.lang),
+  head: ({ match }) => pageHead("/traduction", resolveLang(match.search.lang)),
   component: Page,
 });
 
