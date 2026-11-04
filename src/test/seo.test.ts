@@ -9,11 +9,12 @@ describe("Search attribution", () => {
     expect(graph[0].creator.name).toBe("Youssof Moussa");
     expect(graph[1].author.name).toBe("Dr. Mohamad DIAB");
   });
-  it("keeps page identities self-referencing without inventing a public domain", () => {
+  it("gives each page French and English canonicals on the Vercel domain", () => {
     for (const path of Object.keys(searchPages) as SearchPath[]) {
-      const head = pageHead(path);
-      expect(head.links).toEqual([{ rel: "canonical", href: path }]);
-      expect(head.meta.find(meta => "property" in meta && meta.property === "og:url")?.content).toBe(path);
+      const fr = pageHead(path, "fr").links;
+      const en = pageHead(path, "en").links;
+      expect(fr[0]).toEqual({ rel: "canonical", href: `https://hereditybydiab.vercel.app${path}` });
+      expect(en[0]).toEqual({ rel: "canonical", href: `https://hereditybydiab.vercel.app${path}?lang=en` });
     }
   });
 });

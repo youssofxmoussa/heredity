@@ -15,4 +15,4 @@
 - Every lesson scene is its own SVG component in `src/components/*Scene.tsx` built on `scene-kit.tsx` (KitDefs/Backdrop/Finish/Pill, easing, useClock). Why: one shared look and motion vocabulary.
 - Lesson icons are transparent WebP in `src/assets`, imported (hashed, cacheable); no emojis in the UI. Why: user wants 3D image icons only.
 - Content routes use the shared `pageHead(path)` search metadata helper; scientific authorship is separate from website creator attribution. Why: keeps page identities consistent without misattributing lesson content.
-- Canonicals remain relative until a public domain is known; the social image uses a verified HTTPS asset host, not the canonical domain. Why: avoids invented site URLs while serving crawler-readable share artwork.
+- Canonicals are absolute on the public Vercel origin in `src/lib/site.ts`, with `?lang=en` for English and hreflang alternates. Why: search results must match the selected language.
